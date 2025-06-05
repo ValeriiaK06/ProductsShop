@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Shop</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @*  <link rel="stylesheet" href="~/Shop.styles.css" asp-append-version="true" /> *@
+</head>
+<body>
+    <header class="header">
+        <span class="logo">
+            <span class="logo-caption">Products Shop</span>
+            <svg width="20" height="20" viewBox="0 0 40 40" fill="white">
+                <path d="M12 29c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-1.657 1.343-3 3-3s3 1.343 3 3z"></path>
+                <path d="M32 29c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-1.657 1.343-3 3-3s3 1.343 3 3z"></path>
+                <path d="M32 16v-12h-24c0-1.105-0.895-2-2-2h-6v2h4l1.502 12.877c-0.915 0.733-1.502 1.859-1.502 3.123 0 2.209 1.791 4 4 4h24v-2h-24c-1.105 0-2-0.895-2-2 0-0.007 0-0.014 0-0.020l26-3.98z"></path>
+            </svg>
+        </span>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="/" class="header-link">Home</a></li>
+                <li><a href="/Employees/Index" class="header-link">Employees</a></li>
+                <li><a href="/Products" class="header-link">Products</a></li>
+                <li><a href="/Administration" class="header-link">Add new employee</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        @RenderBody()
+    </main>
+    <footer class="footer">
+        <span class="footer-rights">All rights are reserved by Valeriia</span>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

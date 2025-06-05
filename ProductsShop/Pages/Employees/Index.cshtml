@@ -1,0 +1,161 @@
+﻿@page
+@model ProductsShop.Pages.Employees.IndexModel
+@{
+}
+<style>
+    .employees-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .page-title {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 30px;
+        font-size: 2.5rem;
+        font-weight: 600;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .employees-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+
+    .employees-table thead {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .employees-table th {
+        padding: 15px 12px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .employees-table tbody tr {
+        transition: all 0.3s ease;
+        border-bottom: 1px solid #e8ecf4;
+    }
+
+    .employees-table tbody tr:nth-child(even) {
+        background-color: #f8f9ff;
+    }
+
+    .employees-table tbody tr:hover {
+        background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .employees-table td {
+        padding: 12px;
+        font-size: 0.9rem;
+        color: #2c3e50;
+        vertical-align: middle;
+    }
+
+    .employee-id {
+        font-weight: bold;
+        color: #667eea;
+        text-align: center;
+    }
+
+    .employee-name {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .employee-contact {
+        color: #7f8c8d;
+        font-size: 0.85rem;
+    }
+
+    .employee-date {
+        font-size: 0.85rem;
+        color: #95a5a6;
+    }
+
+    .no-employees-message {
+        text-align: center;
+        padding: 40px;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border-radius: 12px;
+        color: #7f8c8d;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .no-employees-message::before {
+        content: "👥";
+        display: block;
+        font-size: 3rem;
+        margin-bottom: 15px;
+    }
+
+   
+
+    .table-wrapper {
+        overflow-x: auto;
+        margin: 20px 0;
+    }
+</style>
+
+<div class="employees-container">
+    <h2 class="page-title">Our Employees</h2>
+
+   
+        <div class="table-wrapper">
+            <table class="employees-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Last Name</th>
+                        <th>Surname</th>
+                        <th>Gender</th>
+                        <th>Date of Birth</th>
+                        <th>Phone Number</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>Department</th>
+                        <th>Experience</th>
+                        <th>Job Title</th>
+                        <th>Employment Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var employee in Model.EmployeesList)
+                    {
+                        <tr>
+                            <td class="employee-id">@employee.id</td>
+                            <td class="employee-name">@employee.name</td>
+                            <td class="employee-name">@employee.lastname</td>
+                            <td>@employee.surname</td>
+                            <td>@employee.gender</td>
+                            <td class="employee-date">@employee.dateofbirth</td>
+                            <td class="employee-contact">@employee.phonenumber</td>
+                            <td class="employee-contact">@employee.adres</td>
+                            <td>@employee.city</td>
+                            <td>@employee.department</td>
+                            <td>@employee.experienceyear years</td>
+                            <td>@employee.jobtytle</td>
+                            <td class="employee-date">@employee.yearofemployment</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    
+  
+</div>
