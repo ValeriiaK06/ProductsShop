@@ -11,6 +11,17 @@ namespace ProductsShopWebAPI
             // Add services to the container.
             builder.Services.AddControllers();
 
+            // Add CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalhost", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                });
+            });
+
             // Register custom services
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
@@ -42,6 +53,12 @@ namespace ProductsShopWebAPI
             }
 
             app.UseHttpsRedirection();
+
+            // Use CORS
+            app.UseCors("AllowLocalhost");
+
+            // Enable static files
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 
