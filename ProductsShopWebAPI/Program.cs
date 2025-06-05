@@ -22,6 +22,9 @@ namespace ProductsShopWebAPI
                 });
             });
 
+            // Register database service
+            builder.Services.AddScoped<IDatabaseService, DatabaseService>();
+
             // Register custom services
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
