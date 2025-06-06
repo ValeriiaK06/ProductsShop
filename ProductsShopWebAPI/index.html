@@ -591,7 +591,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -607,7 +607,7 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
             color: white;
             padding: 30px;
             text-align: center;
@@ -670,9 +670,9 @@
             }
 
             .section h3 {
-                color: #5a67d8;
+                color: #1e3a8a;
                 margin-bottom: 20px;
-                border-bottom: 3px solid #667eea;
+                border-bottom: 3px solid #3730a3;
                 padding-bottom: 8px;
                 font-size: 1.3em;
                 display: flex;
@@ -704,9 +704,9 @@
 
             input:focus, select:focus, textarea:focus {
                 outline: none;
-                border-color: #667eea;
+                border-color: #3730a3;
                 transform: translateY(-1px);
-                box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+                box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15);
             }
 
         .form-row {
@@ -716,7 +716,7 @@
         }
 
         button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
             color: white;
             border: none;
             padding: 12px 24px;
@@ -733,7 +733,7 @@
 
             button:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+                box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3);
             }
 
             button.delete {
@@ -776,7 +776,7 @@
                 left: 0;
                 right: 0;
                 height: 4px;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
             }
 
             .employee-card:hover {
@@ -846,7 +846,7 @@
             border-radius: 6px;
             margin-bottom: 15px;
             font-family: 'Consolas', 'Monaco', monospace;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #3730a3;
         }
 
         .stats-bar {
@@ -857,12 +857,12 @@
         }
 
         .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
             color: white;
             padding: 20px;
             border-radius: 12px;
             text-align: center;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.2);
         }
 
         .stat-number {
@@ -881,7 +881,7 @@
             width: 20px;
             height: 20px;
             border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
+            border-top: 3px solid #1e3a8a;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-right: 8px;
@@ -896,16 +896,6 @@
                 transform: rotate(360deg);
             }
         }
-
-        .debug-info {
-            background: #f0f8ff;
-            border: 1px solid #b0d4f1;
-            border-radius: 4px;
-            padding: 10px;
-            margin: 10px 0;
-            font-family: monospace;
-            font-size: 12px;
-        }
     </style>
 </head>
 <body>
@@ -916,12 +906,6 @@
         </div>
 
         <div class="content">
-            <!-- Debug Info -->
-            <div id="debugInfo" class="debug-info" style="display: none;">
-                <strong>Debug Info:</strong><br>
-                <span id="debugText"></span>
-            </div>
-
             <!-- Statistics -->
             <div class="stats-bar" id="statsBar" style="display: none;">
                 <div class="stat-card">
@@ -946,7 +930,6 @@
                     <span id="loadAllSpinner" style="display: none;" class="loading-spinner"></span>
                     Завантажити всіх співробітників
                 </button>
-                <div id="allEmployeesResponse" class="response" style="display: none;"></div>
                 <div id="employeesGrid" class="employees-grid"></div>
             </div>
 
@@ -956,10 +939,13 @@
                 <div class="api-url">GET /api/employees/{id}</div>
                 <div class="form-group">
                     <label for="employeeId">ID співробітника:</label>
-                    <input type="number" id="employeeId" placeholder="Введіть ID співробітника" min="1">
+                    <select id="employeeId">
+                        <option value="">Виберіть ID співробітника</option>
+                    </select>
                 </div>
                 <button onclick="getEmployeeById()">Знайти співробітника</button>
                 <div id="employeeByIdResponse" class="response" style="display: none;"></div>
+                <div id="employeeByIdGrid" class="employees-grid"></div>
             </div>
 
             <!-- Get Employees by Department Section -->
@@ -974,6 +960,7 @@
                 </div>
                 <button onclick="getEmployeesByDepartment()">Показати співробітників відділу</button>
                 <div id="departmentResponse" class="response" style="display: none;"></div>
+                <div id="departmentGrid" class="employees-grid"></div>
             </div>
 
             <!-- Create Employee Section -->
@@ -1039,6 +1026,12 @@
                             <input type="number" id="createExperienceYear" min="0" required>
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="createYearOfEmployment">Дата прийняття на роботу: *</label>
+                            <input type="date" id="createYearOfEmployment" required>
+                        </div>
+                    </div>
                     <button type="button" onclick="createEmployee()">Створити співробітника</button>
                 </form>
                 <div id="createResponse" class="response" style="display: none;"></div>
@@ -1050,7 +1043,11 @@
                 <div class="api-url">PUT /api/employees/{id}</div>
                 <div class="form-group">
                     <label for="updateId">ID співробітника для редагування:</label>
-                    <input type="number" id="updateId" min="1" required>
+                    <select id="updateId" required>
+                        <option value="">Виберіть ID співробітника</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 20px;">
                     <button type="button" onclick="loadEmployeeForUpdate()">Завантажити дані</button>
                 </div>
                 <form id="updateForm" style="display: none;">
@@ -1127,7 +1124,9 @@
                 <div class="api-url">DELETE /api/employees/{id}</div>
                 <div class="form-group">
                     <label for="deleteId">ID співробітника для видалення:</label>
-                    <input type="number" id="deleteId" min="1" required>
+                    <select id="deleteId" required>
+                        <option value="">Виберіть ID співробітника</option>
+                    </select>
                 </div>
                 <button class="delete" onclick="deleteEmployee()">Видалити співробітника</button>
                 <div id="deleteResponse" class="response" style="display: none;"></div>
@@ -1141,68 +1140,39 @@
         let genders = [];
         let departments = [];
         let positions = [];
-
-        // Debug function
-        function debugLog(message) {
-            console.log('[DEBUG]', message);
-            const debugDiv = document.getElementById('debugInfo');
-            const debugText = document.getElementById('debugText');
-            debugText.innerHTML += new Date().toLocaleTimeString() + ': ' + message + '<br>';
-            debugDiv.style.display = 'block';
-        }
+        let allEmployees = [];
 
         // Initialize the page
         window.addEventListener('load', async () => {
-            debugLog('Page loaded, initializing...');
             setMaxDates();
             await loadReferenceData();
-            await getAllEmployees();
+            // Убираем автозагрузку всех сотрудников
         });
 
         // Load reference data (genders, departments, positions)
         async function loadReferenceData() {
-            debugLog('Loading reference data...');
             try {
                 // Load genders
-                debugLog('Loading genders...');
                 const gendersResponse = await fetch(`${API_BASE}/genders`);
-                debugLog(`Genders response status: ${gendersResponse.status}`);
-
                 if (gendersResponse.ok) {
                     genders = await gendersResponse.json();
-                    debugLog(`Loaded ${genders.length} genders: ${JSON.stringify(genders)}`);
                     populateGenderSelects();
-                } else {
-                    debugLog(`Failed to load genders: ${gendersResponse.status}`);
                 }
 
                 // Load departments
-                debugLog('Loading departments...');
                 const departmentsResponse = await fetch(`${API_BASE}/departments`);
-                debugLog(`Departments response status: ${departmentsResponse.status}`);
-
                 if (departmentsResponse.ok) {
                     departments = await departmentsResponse.json();
-                    debugLog(`Loaded ${departments.length} departments: ${JSON.stringify(departments)}`);
                     populateDepartmentSelects();
-                } else {
-                    debugLog(`Failed to load departments: ${departmentsResponse.status}`);
                 }
 
                 // Load positions
-                debugLog('Loading positions...');
                 const positionsResponse = await fetch(`${API_BASE}/positions`);
-                debugLog(`Positions response status: ${positionsResponse.status}`);
-
                 if (positionsResponse.ok) {
                     positions = await positionsResponse.json();
-                    debugLog(`Loaded ${positions.length} positions: ${JSON.stringify(positions)}`);
                     populatePositionSelects();
-                } else {
-                    debugLog(`Failed to load positions: ${positionsResponse.status}`);
                 }
             } catch (error) {
-                debugLog(`Error loading reference data: ${error.message}`);
                 console.error('Error loading reference data:', error);
             }
         }
@@ -1216,7 +1186,6 @@
                     select.innerHTML += `<option value="${gender.id}">${gender.genderName}</option>`;
                 });
             });
-            debugLog('Gender selects populated');
         }
 
         function populateDepartmentSelects() {
@@ -1231,7 +1200,6 @@
                     select.innerHTML += `<option value="${value}">${dept.departmentName}</option>`;
                 });
             });
-            debugLog('Department selects populated');
         }
 
         function populatePositionSelects() {
@@ -1243,7 +1211,17 @@
                     select.innerHTML += `<option value="${position.id}">${position.jobTitleName} (${position.salary} грн, ${position.workingTime} год)</option>`;
                 });
             });
-            debugLog('Position selects populated');
+        }
+
+        function populateEmployeeIdSelects() {
+            const selects = ['employeeId', 'updateId', 'deleteId'];
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                select.innerHTML = '<option value="">Виберіть ID співробітника</option>';
+                allEmployees.forEach(emp => {
+                    select.innerHTML += `<option value="${emp.id}">${emp.id} - ${emp.fullName}</option>`;
+                });
+            });
         }
 
         // Utility functions
@@ -1277,29 +1255,32 @@
         async function getAllEmployees() {
             const spinner = document.getElementById('loadAllSpinner');
             spinner.style.display = 'inline-block';
-            showLoading('allEmployeesResponse');
 
             try {
                 const response = await fetch(API_BASE);
                 const data = await response.json();
 
                 if (response.ok) {
-                    showResponse('allEmployeesResponse', data);
-                    displayEmployeesGrid(data);
+                    allEmployees = data;
+                    displayEmployeesGrid(data, 'employeesGrid');
                     updateStats(data);
+                    populateEmployeeIdSelects();
                 } else {
-                    showResponse('allEmployeesResponse', data, true);
+                    // Показываем ошибку в консоли, но не на странице
+                    console.error('Error loading employees:', data);
+                    document.getElementById('employeesGrid').innerHTML = '<p style="text-align: center; padding: 20px; color: #e53e3e;">Помилка завантаження співробітників</p>';
                 }
             } catch (error) {
-                showResponse('allEmployeesResponse', `Помилка: ${error.message}`, true);
+                console.error('Error loading employees:', error);
+                document.getElementById('employeesGrid').innerHTML = '<p style="text-align: center; padding: 20px; color: #e53e3e;">Помилка підключення до сервера</p>';
             } finally {
                 spinner.style.display = 'none';
             }
         }
 
         // Display employees in grid format
-        function displayEmployeesGrid(employees) {
-            const grid = document.getElementById('employeesGrid');
+        function displayEmployeesGrid(employees, gridId) {
+            const grid = document.getElementById(gridId);
             if (employees.length === 0) {
                 grid.innerHTML = '<p style="text-align: center; padding: 20px; color: #718096;">Співробітники не знайдені.</p>';
                 return;
@@ -1356,7 +1337,8 @@
         async function getEmployeeById() {
             const id = document.getElementById('employeeId').value;
             if (!id) {
-                showResponse('employeeByIdResponse', 'Будь ласка, введіть ID співробітника', true);
+                showResponse('employeeByIdResponse', 'Будь ласка, виберіть ID співробітника', true);
+                document.getElementById('employeeByIdGrid').innerHTML = '';
                 return;
             }
 
@@ -1364,9 +1346,18 @@
             try {
                 const response = await fetch(`${API_BASE}/${id}`);
                 const data = await response.json();
-                showResponse('employeeByIdResponse', data, !response.ok);
+
+                if (response.ok) {
+                    showResponse('employeeByIdResponse', `Знайдено співробітника з ID ${id}`);
+                    // Отображаем найденного сотрудника как карточку
+                    displayEmployeesGrid([data], 'employeeByIdGrid');
+                } else {
+                    showResponse('employeeByIdResponse', data, true);
+                    document.getElementById('employeeByIdGrid').innerHTML = '';
+                }
             } catch (error) {
                 showResponse('employeeByIdResponse', `Помилка: ${error.message}`, true);
+                document.getElementById('employeeByIdGrid').innerHTML = '';
             }
         }
 
@@ -1384,20 +1375,20 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    showResponse('departmentResponse', data);
-                    displayEmployeesGrid(data);
+                    showResponse('departmentResponse', `Знайдено ${data.length} співробітників у відділі "${department}"`);
+                    displayEmployeesGrid(data, 'departmentGrid');
                 } else {
                     showResponse('departmentResponse', data, true);
+                    document.getElementById('departmentGrid').innerHTML = '';
                 }
             } catch (error) {
                 showResponse('departmentResponse', `Помилка: ${error.message}`, true);
+                document.getElementById('departmentGrid').innerHTML = '';
             }
         }
 
-        // Create Employee - ИСПРАВЛЕННАЯ ВЕРСИЯ
+        // Create Employee
         async function createEmployee() {
-            debugLog('Starting employee creation...');
-
             // Получаем все значения с проверкой
             const name = document.getElementById('createName').value.trim();
             const lastName = document.getElementById('createLastName').value.trim();
@@ -1410,8 +1401,7 @@
             const departmentValue = document.getElementById('createDepartment').value;
             const jobTitleValue = document.getElementById('createJobTitle').value;
             const experienceValue = document.getElementById('createExperienceYear').value;
-
-            debugLog(`Form values: name="${name}", lastName="${lastName}", gender="${genderValue}", department="${departmentValue}", jobTitle="${jobTitleValue}", experience="${experienceValue}"`);
+            const yearOfEmployment = document.getElementById('createYearOfEmployment').value;
 
             // Проверяем обязательные поля
             if (!name || !lastName || !phoneNumber || !address || !city) {
@@ -1420,7 +1410,7 @@
             }
 
             // Проверяем выбраны ли справочники
-            if (!genderValue || !departmentValue || !jobTitleValue || !experienceValue || !dateOfBirth) {
+            if (!genderValue || !departmentValue || !jobTitleValue || !experienceValue || !dateOfBirth || !yearOfEmployment) {
                 showResponse('createResponse', 'Будь ласка, виберіть значення для всіх обов\'язкових полів', true);
                 return;
             }
@@ -1434,7 +1424,6 @@
             // Проверяем что конвертация прошла успешно
             if (isNaN(gender) || isNaN(department) || isNaN(jobTitle) || isNaN(experienceYear)) {
                 showResponse('createResponse', 'Помилка: неправильні числові значення в полях', true);
-                debugLog(`Conversion failed: gender=${gender}, department=${department}, jobTitle=${jobTitle}, experience=${experienceYear}`);
                 return;
             }
 
@@ -1450,10 +1439,9 @@
                 city: city,
                 department: department,
                 experienceYear: experienceYear,
-                jobTitle: jobTitle
+                jobTitle: jobTitle,
+                yearOfEmployment: yearOfEmployment
             };
-
-            debugLog(`Employee data prepared: ${JSON.stringify(employeeData)}`);
 
             // Валидация номера телефона
             if (!phoneNumber.match(/^380\d{9}$/)) {
@@ -1470,8 +1458,6 @@
                 age--;
             }
 
-            debugLog(`Calculated age: ${age}`);
-
             if (age < 18) {
                 showResponse('createResponse', 'Співробітник повинен бути не молодше 18 років', true);
                 return;
@@ -1482,9 +1468,15 @@
                 return;
             }
 
+            // Валидация даты трудоустройства
+            const employmentDate = new Date(yearOfEmployment);
+            if (employmentDate > today) {
+                showResponse('createResponse', 'Дата прийняття на роботу не може бути в майбутньому', true);
+                return;
+            }
+
             // Отправка данных
             showLoading('createResponse');
-            debugLog('Sending request to server...');
 
             try {
                 const response = await fetch(API_BASE, {
@@ -1495,10 +1487,7 @@
                     body: JSON.stringify(employeeData)
                 });
 
-                debugLog(`Server response status: ${response.status}`);
-
                 const data = await response.json();
-                debugLog(`Server response data: ${JSON.stringify(data)}`);
 
                 if (response.ok) {
                     showResponse('createResponse', 'Співробітника успішно створено!');
@@ -1509,7 +1498,6 @@
                     showResponse('createResponse', data, true);
                 }
             } catch (error) {
-                debugLog(`Error: ${error.message}`);
                 showResponse('createResponse', `Помилка: ${error.message}`, true);
             }
         }
@@ -1518,7 +1506,7 @@
         async function loadEmployeeForUpdate() {
             const id = document.getElementById('updateId').value;
             if (!id) {
-                showResponse('updateResponse', 'Будь ласка, введіть ID співробітника', true);
+                showResponse('updateResponse', 'Будь ласка, виберіть ID співробітника', true);
                 return;
             }
 
@@ -1620,6 +1608,8 @@
 
                 if (response.ok) {
                     await getAllEmployees();
+                    document.getElementById('updateForm').style.display = 'none';
+                    showResponse('updateResponse', 'Дані співробітника успішно оновлено!');
                 }
             } catch (error) {
                 showResponse('updateResponse', `Помилка: ${error.message}`, true);
@@ -1630,11 +1620,15 @@
         async function deleteEmployee() {
             const id = document.getElementById('deleteId').value;
             if (!id) {
-                showResponse('deleteResponse', 'Будь ласка, введіть ID співробітника', true);
+                showResponse('deleteResponse', 'Будь ласка, виберіть ID співробітника', true);
                 return;
             }
 
-            if (!confirm(`Ви впевнені, що хочете видалити співробітника з ID ${id}?`)) {
+            // Находим имя сотрудника для подтверждения
+            const employee = allEmployees.find(emp => emp.id == id);
+            const employeeName = employee ? employee.fullName : `ID ${id}`;
+
+            if (!confirm(`Ви впевнені, що хочете видалити співробітника ${employeeName}?`)) {
                 return;
             }
 
@@ -1645,7 +1639,7 @@
                 });
 
                 if (response.ok) {
-                    showResponse('deleteResponse', `Співробітника з ID ${id} успішно видалено`);
+                    showResponse('deleteResponse', `Співробітника ${employeeName} успішно видалено`);
                     document.getElementById('deleteId').value = '';
                     await getAllEmployees();
                 } else {
@@ -1666,6 +1660,7 @@
 
             document.getElementById('createDateOfBirth').setAttribute('max', maxBirth);
             document.getElementById('updateDateOfBirth').setAttribute('max', maxBirth);
+            document.getElementById('createYearOfEmployment').setAttribute('max', today);
             document.getElementById('updateYearOfEmployment').setAttribute('max', today);
         }
     </script>
