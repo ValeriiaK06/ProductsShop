@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿<!--<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -189,152 +189,147 @@
             <p>Testing .NET Core Web API Endpoints</p>
         </div>
 
-        <div class="content">
-            <!-- Get All Employees Section -->
-            <div class="section">
-                <h3>📋 Get All Employees</h3>
-                <div class="api-url">GET /api/employees</div>
-                <button onclick="getAllEmployees()">Load All Employees</button>
-                <div id="allEmployeesResponse" class="response" style="display: none;"></div>
-                <div id="employeesGrid" class="employees-grid"></div>
+        <div class="content">-->
+<!-- Get All Employees Section -->
+<!--<div class="section">
+    <h3>📋 Get All Employees</h3>
+    <div class="api-url">GET /api/employees</div>
+    <button onclick="getAllEmployees()">Load All Employees</button>
+    <div id="allEmployeesResponse" class="response" style="display: none;"></div>
+    <div id="employeesGrid" class="employees-grid"></div>
+</div>-->
+<!-- Get Employee by ID Section -->
+<!--<div class="section">
+    <h3>🔍 Get Employee by ID</h3>
+    <div class="api-url">GET /api/employees/{id}</div>
+    <div class="form-group">
+        <label for="employeeId">Employee ID:</label>
+        <input type="number" id="employeeId" placeholder="Enter employee ID" min="1">
+    </div>
+    <button onclick="getEmployeeById()">Get Employee</button>
+    <div id="employeeByIdResponse" class="response" style="display: none;"></div>
+</div>-->
+<!-- Get Employees by Department Section -->
+<!--<div class="section">
+    <h3>🏢 Get Employees by Department</h3>
+    <div class="api-url">GET /api/employees/department/{department}</div>
+    <div class="form-group">
+        <label for="departmentName">Department:</label>
+        <select id="departmentName">
+            <option value="">Select Department</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Marketing">Marketing</option>
+            <option value="HR">HR</option>
+            <option value="Finance">Finance</option>
+        </select>
+    </div>
+    <button onclick="getEmployeesByDepartment()">Get by Department</button>
+    <div id="departmentResponse" class="response" style="display: none;"></div>
+</div>-->
+<!-- Create Employee Section -->
+<!--<div class="section">
+    <h3>➕ Create New Employee</h3>
+    <div class="api-url">POST /api/employees</div>
+    <form id="createForm">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="createFirstName">First Name:</label>
+                <input type="text" id="createFirstName" required>
             </div>
-
-            <!-- Get Employee by ID Section -->
-            <div class="section">
-                <h3>🔍 Get Employee by ID</h3>
-                <div class="api-url">GET /api/employees/{id}</div>
-                <div class="form-group">
-                    <label for="employeeId">Employee ID:</label>
-                    <input type="number" id="employeeId" placeholder="Enter employee ID" min="1">
-                </div>
-                <button onclick="getEmployeeById()">Get Employee</button>
-                <div id="employeeByIdResponse" class="response" style="display: none;"></div>
+            <div class="form-group">
+                <label for="createLastName">Last Name:</label>
+                <input type="text" id="createLastName" required>
             </div>
-
-            <!-- Get Employees by Department Section -->
-            <div class="section">
-                <h3>🏢 Get Employees by Department</h3>
-                <div class="api-url">GET /api/employees/department/{department}</div>
-                <div class="form-group">
-                    <label for="departmentName">Department:</label>
-                    <select id="departmentName">
-                        <option value="">Select Department</option>
-                        <option value="Engineering">Engineering</option>
-                        <option value="Marketing">Marketing</option>
-                        <option value="HR">HR</option>
-                        <option value="Finance">Finance</option>
-                    </select>
-                </div>
-                <button onclick="getEmployeesByDepartment()">Get by Department</button>
-                <div id="departmentResponse" class="response" style="display: none;"></div>
+        </div>
+        <div class="form-group">
+            <label for="createEmail">Email:</label>
+            <input type="email" id="createEmail" required>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="createDepartment">Department:</label>
+                <select id="createDepartment" required>
+                    <option value="">Select Department</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="HR">HR</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Sales">Sales</option>
+                </select>
             </div>
-
-            <!-- Create Employee Section -->
-            <div class="section">
-                <h3>➕ Create New Employee</h3>
-                <div class="api-url">POST /api/employees</div>
-                <form id="createForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="createFirstName">First Name:</label>
-                            <input type="text" id="createFirstName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="createLastName">Last Name:</label>
-                            <input type="text" id="createLastName" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="createEmail">Email:</label>
-                        <input type="email" id="createEmail" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="createDepartment">Department:</label>
-                            <select id="createDepartment" required>
-                                <option value="">Select Department</option>
-                                <option value="Engineering">Engineering</option>
-                                <option value="Marketing">Marketing</option>
-                                <option value="HR">HR</option>
-                                <option value="Finance">Finance</option>
-                                <option value="Sales">Sales</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="createPosition">Position:</label>
-                            <input type="text" id="createPosition" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="createSalary">Salary:</label>
-                        <input type="number" id="createSalary" min="0" step="1000" required>
-                    </div>
-                    <button type="button" onclick="createEmployee()">Create Employee</button>
-                </form>
-                <div id="createResponse" class="response" style="display: none;"></div>
+            <div class="form-group">
+                <label for="createPosition">Position:</label>
+                <input type="text" id="createPosition" required>
             </div>
-
-            <!-- Update Employee Section -->
-            <div class="section">
-                <h3>✏️ Update Employee</h3>
-                <div class="api-url">PUT /api/employees/{id}</div>
-                <div class="form-group">
-                    <label for="updateId">Employee ID to Update:</label>
-                    <input type="number" id="updateId" min="1" required>
-                    <button type="button" onclick="loadEmployeeForUpdate()">Load Employee Data</button>
-                </div>
-                <form id="updateForm" style="display: none;">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="updateFirstName">First Name:</label>
-                            <input type="text" id="updateFirstName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="updateLastName">Last Name:</label>
-                            <input type="text" id="updateLastName" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="updateEmail">Email:</label>
-                        <input type="email" id="updateEmail" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="updateDepartment">Department:</label>
-                            <select id="updateDepartment" required>
-                                <option value="">Select Department</option>
-                                <option value="Engineering">Engineering</option>
-                                <option value="Marketing">Marketing</option>
-                                <option value="HR">HR</option>
-                                <option value="Finance">Finance</option>
-                                <option value="Sales">Sales</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="updatePosition">Position:</label>
-                            <input type="text" id="updatePosition" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="updateSalary">Salary:</label>
-                            <input type="number" id="updateSalary" min="0" step="1000" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="updateIsActive">Status:</label>
-                            <select id="updateIsActive" required>
-                                <option value="true">Active</option>
-                                <option value="false">Inactive</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button type="button" class="update" onclick="updateEmployee()">Update Employee</button>
-                </form>
-                <div id="updateResponse" class="response" style="display: none;"></div>
+        </div>
+        <div class="form-group">
+            <label for="createSalary">Salary:</label>
+            <input type="number" id="createSalary" min="0" step="1000" required>
+        </div>
+        <button type="button" onclick="createEmployee()">Create Employee</button>
+    </form>
+    <div id="createResponse" class="response" style="display: none;"></div>
+</div>-->
+<!-- Update Employee Section -->
+<!--<div class="section">
+    <h3>✏️ Update Employee</h3>
+    <div class="api-url">PUT /api/employees/{id}</div>
+    <div class="form-group">
+        <label for="updateId">Employee ID to Update:</label>
+        <input type="number" id="updateId" min="1" required>
+        <button type="button" onclick="loadEmployeeForUpdate()">Load Employee Data</button>
+    </div>
+    <form id="updateForm" style="display: none;">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="updateFirstName">First Name:</label>
+                <input type="text" id="updateFirstName" required>
             </div>
-
-            <!-- Delete Employee Section -->
-            <div class="section">
+            <div class="form-group">
+                <label for="updateLastName">Last Name:</label>
+                <input type="text" id="updateLastName" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="updateEmail">Email:</label>
+            <input type="email" id="updateEmail" required>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="updateDepartment">Department:</label>
+                <select id="updateDepartment" required>
+                    <option value="">Select Department</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="HR">HR</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Sales">Sales</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="updatePosition">Position:</label>
+                <input type="text" id="updatePosition" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="updateSalary">Salary:</label>
+                <input type="number" id="updateSalary" min="0" step="1000" required>
+            </div>
+            <div class="form-group">
+                <label for="updateIsActive">Status:</label>
+                <select id="updateIsActive" required>
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                </select>
+            </div>
+        </div>
+        <button type="button" class="update" onclick="updateEmployee()">Update Employee</button>
+    </form>
+    <div id="updateResponse" class="response" style="display: none;"></div>
+</div>-->
+<!-- Delete Employee Section -->
+<!--<div class="section">
                 <h3>🗑️ Delete Employee</h3>
                 <div class="api-url">DELETE /api/employees/{id}</div>
                 <div class="form-group">
@@ -576,6 +571,1103 @@
 
         // Load all employees on page load
         window.addEventListener('load', getAllEmployees);
+    </script>
+</body>
+</html>-->
+
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система управління співробітниками</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .header::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: repeating-linear-gradient( 45deg, transparent, transparent 2px, rgba(255,255,255,0.05) 2px, rgba(255,255,255,0.05) 4px );
+                animation: slide 20s linear infinite;
+            }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(-50px);
+            }
+
+            100% {
+                transform: translateX(50px);
+            }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+            .section:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            }
+
+            .section h3 {
+                color: #5a67d8;
+                margin-bottom: 20px;
+                border-bottom: 3px solid #667eea;
+                padding-bottom: 8px;
+                font-size: 1.3em;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.95em;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+            input:focus, select:focus, textarea:focus {
+                outline: none;
+                border-color: #667eea;
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+            }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+            button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            }
+
+            button.delete {
+                background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            }
+
+                button.delete:hover {
+                    box-shadow: 0 8px 25px rgba(229, 62, 62, 0.3);
+                }
+
+            button.update {
+                background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+            }
+
+                button.update:hover {
+                    box-shadow: 0 8px 25px rgba(237, 137, 54, 0.3);
+                }
+
+        .employees-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .employee-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .employee-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            }
+
+            .employee-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 12px 35px rgba(0,0,0,0.1);
+            }
+
+            .employee-card h4 {
+                color: #2d3748;
+                margin-bottom: 15px;
+                font-size: 1.2em;
+                font-weight: 700;
+            }
+
+        .employee-info {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+        }
+
+            .employee-info span {
+                font-weight: 600;
+                color: #4a5568;
+                min-width: 120px;
+            }
+
+        .employee-value {
+            color: #2d3748;
+            text-align: right;
+        }
+
+        .response {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+            font-size: 13px;
+        }
+
+        .success {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border: 2px solid #9ae6b4;
+            color: #22543d;
+        }
+
+        .error {
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            border: 2px solid #fc8181;
+            color: #742a2a;
+        }
+
+        .loading {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef5e7 100%);
+            border: 2px solid #f6e05e;
+            color: #744210;
+        }
+
+        .api-url {
+            font-size: 12px;
+            color: #718096;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            border-left: 4px solid #667eea;
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .debug-info {
+            background: #f0f8ff;
+            border: 1px solid #b0d4f1;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏢 Система управління співробітниками</h1>
+            <p>Підключення до бази даних SQL Server</p>
+        </div>
+
+        <div class="content">
+            <!-- Debug Info -->
+            <div id="debugInfo" class="debug-info" style="display: none;">
+                <strong>Debug Info:</strong><br>
+                <span id="debugText"></span>
+            </div>
+
+            <!-- Statistics -->
+            <div class="stats-bar" id="statsBar" style="display: none;">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalEmployees">0</div>
+                    <div class="stat-label">Всього співробітників</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalDepartments">0</div>
+                    <div class="stat-label">Відділів</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="avgAge">0</div>
+                    <div class="stat-label">Середній вік</div>
+                </div>
+            </div>
+
+            <!-- Get All Employees Section -->
+            <div class="section">
+                <h3>📋 Всі співробітники</h3>
+                <div class="api-url">GET /api/employees</div>
+                <button onclick="getAllEmployees()">
+                    <span id="loadAllSpinner" style="display: none;" class="loading-spinner"></span>
+                    Завантажити всіх співробітників
+                </button>
+                <div id="allEmployeesResponse" class="response" style="display: none;"></div>
+                <div id="employeesGrid" class="employees-grid"></div>
+            </div>
+
+            <!-- Get Employee by ID Section -->
+            <div class="section">
+                <h3>🔍 Пошук співробітника за ID</h3>
+                <div class="api-url">GET /api/employees/{id}</div>
+                <div class="form-group">
+                    <label for="employeeId">ID співробітника:</label>
+                    <input type="number" id="employeeId" placeholder="Введіть ID співробітника" min="1">
+                </div>
+                <button onclick="getEmployeeById()">Знайти співробітника</button>
+                <div id="employeeByIdResponse" class="response" style="display: none;"></div>
+            </div>
+
+            <!-- Get Employees by Department Section -->
+            <div class="section">
+                <h3>🏢 Співробітники за відділом</h3>
+                <div class="api-url">GET /api/employees/department/{department}</div>
+                <div class="form-group">
+                    <label for="departmentName">Відділ:</label>
+                    <select id="departmentName">
+                        <option value="">Виберіть відділ</option>
+                    </select>
+                </div>
+                <button onclick="getEmployeesByDepartment()">Показати співробітників відділу</button>
+                <div id="departmentResponse" class="response" style="display: none;"></div>
+            </div>
+
+            <!-- Create Employee Section -->
+            <div class="section">
+                <h3>➕ Додати нового співробітника</h3>
+                <div class="api-url">POST /api/employees</div>
+                <form id="createForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="createName">Ім'я: *</label>
+                            <input type="text" id="createName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="createLastName">Прізвище: *</label>
+                            <input type="text" id="createLastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="createSurname">По батькові:</label>
+                            <input type="text" id="createSurname">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="createGender">Стать: *</label>
+                            <select id="createGender" required>
+                                <option value="">Виберіть стать</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="createDateOfBirth">Дата народження: *</label>
+                            <input type="date" id="createDateOfBirth" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="createPhoneNumber">Номер телефону (380XXXXXXXXX): *</label>
+                            <input type="text" id="createPhoneNumber" placeholder="380501234567" pattern="380[0-9]{9}" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="createAddress">Адреса: *</label>
+                            <input type="text" id="createAddress" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="createCity">Місто: *</label>
+                            <input type="text" id="createCity" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="createDepartment">Відділ: *</label>
+                            <select id="createDepartment" required>
+                                <option value="">Виберіть відділ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="createJobTitle">Посада: *</label>
+                            <select id="createJobTitle" required>
+                                <option value="">Виберіть посаду</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="createExperienceYear">Досвід роботи (років): *</label>
+                            <input type="number" id="createExperienceYear" min="0" required>
+                        </div>
+                    </div>
+                    <button type="button" onclick="createEmployee()">Створити співробітника</button>
+                </form>
+                <div id="createResponse" class="response" style="display: none;"></div>
+            </div>
+
+            <!-- Update Employee Section -->
+            <div class="section">
+                <h3>✏️ Редагувати співробітника</h3>
+                <div class="api-url">PUT /api/employees/{id}</div>
+                <div class="form-group">
+                    <label for="updateId">ID співробітника для редагування:</label>
+                    <input type="number" id="updateId" min="1" required>
+                    <button type="button" onclick="loadEmployeeForUpdate()">Завантажити дані</button>
+                </div>
+                <form id="updateForm" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="updateName">Ім'я:</label>
+                            <input type="text" id="updateName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateLastName">Прізвище:</label>
+                            <input type="text" id="updateLastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateSurname">По батькові:</label>
+                            <input type="text" id="updateSurname">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="updateGender">Стать:</label>
+                            <select id="updateGender" required>
+                                <option value="">Виберіть стать</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateDateOfBirth">Дата народження:</label>
+                            <input type="date" id="updateDateOfBirth" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updatePhoneNumber">Номер телефону:</label>
+                            <input type="text" id="updatePhoneNumber" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="updateAddress">Адреса:</label>
+                            <input type="text" id="updateAddress" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateCity">Місто:</label>
+                            <input type="text" id="updateCity" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="updateDepartment">Відділ:</label>
+                            <select id="updateDepartment" required>
+                                <option value="">Виберіть відділ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateJobTitle">Посада:</label>
+                            <select id="updateJobTitle" required>
+                                <option value="">Виберіть посаду</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateExperienceYear">Досвід роботи:</label>
+                            <input type="number" id="updateExperienceYear" min="0" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateYearOfEmployment">Дата прийняття на роботу:</label>
+                        <input type="date" id="updateYearOfEmployment" required>
+                    </div>
+                    <button type="button" class="update" onclick="updateEmployee()">Оновити дані</button>
+                </form>
+                <div id="updateResponse" class="response" style="display: none;"></div>
+            </div>
+
+            <!-- Delete Employee Section -->
+            <div class="section">
+                <h3>🗑️ Видалити співробітника</h3>
+                <div class="api-url">DELETE /api/employees/{id}</div>
+                <div class="form-group">
+                    <label for="deleteId">ID співробітника для видалення:</label>
+                    <input type="number" id="deleteId" min="1" required>
+                </div>
+                <button class="delete" onclick="deleteEmployee()">Видалити співробітника</button>
+                <div id="deleteResponse" class="response" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5109/api/employees';
+
+        let genders = [];
+        let departments = [];
+        let positions = [];
+
+        // Debug function
+        function debugLog(message) {
+            console.log('[DEBUG]', message);
+            const debugDiv = document.getElementById('debugInfo');
+            const debugText = document.getElementById('debugText');
+            debugText.innerHTML += new Date().toLocaleTimeString() + ': ' + message + '<br>';
+            debugDiv.style.display = 'block';
+        }
+
+        // Initialize the page
+        window.addEventListener('load', async () => {
+            debugLog('Page loaded, initializing...');
+            setMaxDates();
+            await loadReferenceData();
+            await getAllEmployees();
+        });
+
+        // Load reference data (genders, departments, positions)
+        async function loadReferenceData() {
+            debugLog('Loading reference data...');
+            try {
+                // Load genders
+                debugLog('Loading genders...');
+                const gendersResponse = await fetch(`${API_BASE}/genders`);
+                debugLog(`Genders response status: ${gendersResponse.status}`);
+
+                if (gendersResponse.ok) {
+                    genders = await gendersResponse.json();
+                    debugLog(`Loaded ${genders.length} genders: ${JSON.stringify(genders)}`);
+                    populateGenderSelects();
+                } else {
+                    debugLog(`Failed to load genders: ${gendersResponse.status}`);
+                }
+
+                // Load departments
+                debugLog('Loading departments...');
+                const departmentsResponse = await fetch(`${API_BASE}/departments`);
+                debugLog(`Departments response status: ${departmentsResponse.status}`);
+
+                if (departmentsResponse.ok) {
+                    departments = await departmentsResponse.json();
+                    debugLog(`Loaded ${departments.length} departments: ${JSON.stringify(departments)}`);
+                    populateDepartmentSelects();
+                } else {
+                    debugLog(`Failed to load departments: ${departmentsResponse.status}`);
+                }
+
+                // Load positions
+                debugLog('Loading positions...');
+                const positionsResponse = await fetch(`${API_BASE}/positions`);
+                debugLog(`Positions response status: ${positionsResponse.status}`);
+
+                if (positionsResponse.ok) {
+                    positions = await positionsResponse.json();
+                    debugLog(`Loaded ${positions.length} positions: ${JSON.stringify(positions)}`);
+                    populatePositionSelects();
+                } else {
+                    debugLog(`Failed to load positions: ${positionsResponse.status}`);
+                }
+            } catch (error) {
+                debugLog(`Error loading reference data: ${error.message}`);
+                console.error('Error loading reference data:', error);
+            }
+        }
+
+        function populateGenderSelects() {
+            const selects = ['createGender', 'updateGender'];
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                select.innerHTML = '<option value="">Виберіть стать</option>';
+                genders.forEach(gender => {
+                    select.innerHTML += `<option value="${gender.id}">${gender.genderName}</option>`;
+                });
+            });
+            debugLog('Gender selects populated');
+        }
+
+        function populateDepartmentSelects() {
+            const selects = ['departmentName', 'createDepartment', 'updateDepartment'];
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                const isForSearch = selectId === 'departmentName';
+                select.innerHTML = '<option value="">Виберіть відділ</option>';
+
+                departments.forEach(dept => {
+                    const value = isForSearch ? dept.departmentName : dept.id;
+                    select.innerHTML += `<option value="${value}">${dept.departmentName}</option>`;
+                });
+            });
+            debugLog('Department selects populated');
+        }
+
+        function populatePositionSelects() {
+            const selects = ['createJobTitle', 'updateJobTitle'];
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                select.innerHTML = '<option value="">Виберіть посаду</option>';
+                positions.forEach(position => {
+                    select.innerHTML += `<option value="${position.id}">${position.jobTitleName} (${position.salary} грн, ${position.workingTime} год)</option>`;
+                });
+            });
+            debugLog('Position selects populated');
+        }
+
+        // Utility functions
+        function showResponse(elementId, data, isError = false) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = `response ${isError ? 'error' : 'success'}`;
+            element.textContent = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+        }
+
+        function showLoading(elementId) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = 'response loading';
+            element.textContent = 'Завантаження...';
+        }
+
+        function updateStats(employees) {
+            if (employees && employees.length > 0) {
+                document.getElementById('totalEmployees').textContent = employees.length;
+                document.getElementById('totalDepartments').textContent = new Set(employees.map(e => e.departmentName)).size;
+
+                const avgAge = employees.reduce((sum, emp) => sum + emp.age, 0) / employees.length;
+                document.getElementById('avgAge').textContent = Math.round(avgAge);
+
+                document.getElementById('statsBar').style.display = 'grid';
+            }
+        }
+
+        // Get All Employees
+        async function getAllEmployees() {
+            const spinner = document.getElementById('loadAllSpinner');
+            spinner.style.display = 'inline-block';
+            showLoading('allEmployeesResponse');
+
+            try {
+                const response = await fetch(API_BASE);
+                const data = await response.json();
+
+                if (response.ok) {
+                    showResponse('allEmployeesResponse', data);
+                    displayEmployeesGrid(data);
+                    updateStats(data);
+                } else {
+                    showResponse('allEmployeesResponse', data, true);
+                }
+            } catch (error) {
+                showResponse('allEmployeesResponse', `Помилка: ${error.message}`, true);
+            } finally {
+                spinner.style.display = 'none';
+            }
+        }
+
+        // Display employees in grid format
+        function displayEmployeesGrid(employees) {
+            const grid = document.getElementById('employeesGrid');
+            if (employees.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; padding: 20px; color: #718096;">Співробітники не знайдені.</p>';
+                return;
+            }
+
+            grid.innerHTML = employees.map(emp => `
+                    <div class="employee-card">
+                        <h4>${emp.fullName}</h4>
+                        <div class="employee-info">
+                            <span>ID:</span>
+                            <div class="employee-value">${emp.id}</div>
+                        </div>
+                        <div class="employee-info">
+                            <span>Стать:</span>
+                            <div class="employee-value">${emp.gender}</div>
+                        </div>
+                        <div class="employee-info">
+                            <span>Вік:</span>
+                            <div class="employee-value">${emp.age} років</div>
+                        </div>
+                        <div class="employee-info">
+                            <span>Телефон:</span>
+                            <div class="employee-value">${emp.phoneNumber}</div>
+                        </div>
+                        <div class="employee-info">
+                            <span>Місто:</span>
+                            <div class="employee-value">${emp.city}</div>
+                        </div>
+                        <div class="employee-info">
+                            <span>Відділ:</span>
+                            <div class="employee-value">${emp.departmentName}</div>
+                        </div>
+                        <div class="employee-info">
+                            <span>Посада:</span>
+                            <div class="employee-value">${emp.jobTitleName}</div>
+                        </div>
+                        <div class="employee-info">
+                            <span>Зарплата:</span>
+                            <div class="employee-value">${emp.salary.toLocaleString()} грн</div>
+                        </div>
+                        <div class="employee-info">
+                            <span>Досвід:</span>
+                            <div class="employee-value">${emp.experienceYear} років</div>
+                        </div>
+                        <div class="employee-info">
+                            <span>Прийнятий:</span>
+                            <div class="employee-value">${new Date(emp.yearOfEmployment).toLocaleDateString('uk-UA')}</div>
+                        </div>
+                    </div>
+                `).join('');
+        }
+
+        // Get Employee by ID
+        async function getEmployeeById() {
+            const id = document.getElementById('employeeId').value;
+            if (!id) {
+                showResponse('employeeByIdResponse', 'Будь ласка, введіть ID співробітника', true);
+                return;
+            }
+
+            showLoading('employeeByIdResponse');
+            try {
+                const response = await fetch(`${API_BASE}/${id}`);
+                const data = await response.json();
+                showResponse('employeeByIdResponse', data, !response.ok);
+            } catch (error) {
+                showResponse('employeeByIdResponse', `Помилка: ${error.message}`, true);
+            }
+        }
+
+        // Get Employees by Department
+        async function getEmployeesByDepartment() {
+            const department = document.getElementById('departmentName').value;
+            if (!department) {
+                showResponse('departmentResponse', 'Будь ласка, виберіть відділ', true);
+                return;
+            }
+
+            showLoading('departmentResponse');
+            try {
+                const response = await fetch(`${API_BASE}/department/${encodeURIComponent(department)}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    showResponse('departmentResponse', data);
+                    displayEmployeesGrid(data);
+                } else {
+                    showResponse('departmentResponse', data, true);
+                }
+            } catch (error) {
+                showResponse('departmentResponse', `Помилка: ${error.message}`, true);
+            }
+        }
+
+        // Create Employee - ИСПРАВЛЕННАЯ ВЕРСИЯ
+        async function createEmployee() {
+            debugLog('Starting employee creation...');
+
+            // Получаем все значения с проверкой
+            const name = document.getElementById('createName').value.trim();
+            const lastName = document.getElementById('createLastName').value.trim();
+            const surname = document.getElementById('createSurname').value.trim();
+            const genderValue = document.getElementById('createGender').value;
+            const dateOfBirth = document.getElementById('createDateOfBirth').value;
+            const phoneNumber = document.getElementById('createPhoneNumber').value.trim();
+            const address = document.getElementById('createAddress').value.trim();
+            const city = document.getElementById('createCity').value.trim();
+            const departmentValue = document.getElementById('createDepartment').value;
+            const jobTitleValue = document.getElementById('createJobTitle').value;
+            const experienceValue = document.getElementById('createExperienceYear').value;
+
+            debugLog(`Form values: name="${name}", lastName="${lastName}", gender="${genderValue}", department="${departmentValue}", jobTitle="${jobTitleValue}", experience="${experienceValue}"`);
+
+            // Проверяем обязательные поля
+            if (!name || !lastName || !phoneNumber || !address || !city) {
+                showResponse('createResponse', 'Будь ласка, заповніть всі обов\'язкові поля (позначені *)', true);
+                return;
+            }
+
+            // Проверяем выбраны ли справочники
+            if (!genderValue || !departmentValue || !jobTitleValue || !experienceValue || !dateOfBirth) {
+                showResponse('createResponse', 'Будь ласка, виберіть значення для всіх обов\'язкових полів', true);
+                return;
+            }
+
+            // Конвертируем в числа
+            const gender = parseInt(genderValue);
+            const department = parseInt(departmentValue);
+            const jobTitle = parseInt(jobTitleValue);
+            const experienceYear = parseInt(experienceValue);
+
+            // Проверяем что конвертация прошла успешно
+            if (isNaN(gender) || isNaN(department) || isNaN(jobTitle) || isNaN(experienceYear)) {
+                showResponse('createResponse', 'Помилка: неправильні числові значення в полях', true);
+                debugLog(`Conversion failed: gender=${gender}, department=${department}, jobTitle=${jobTitle}, experience=${experienceYear}`);
+                return;
+            }
+
+            // Создаем объект данных
+            const employeeData = {
+                name: name,
+                lastName: lastName,
+                surname: surname || null,
+                gender: gender,
+                dateOfBirth: dateOfBirth,
+                phoneNumber: phoneNumber,
+                address: address,
+                city: city,
+                department: department,
+                experienceYear: experienceYear,
+                jobTitle: jobTitle
+            };
+
+            debugLog(`Employee data prepared: ${JSON.stringify(employeeData)}`);
+
+            // Валидация номера телефона
+            if (!phoneNumber.match(/^380\d{9}$/)) {
+                showResponse('createResponse', 'Номер телефону повинен починатися з 380 і містити 12 цифр', true);
+                return;
+            }
+
+            // Валидация возраста
+            const birthDate = new Date(dateOfBirth);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            if (today.getMonth() < birthDate.getMonth() ||
+                (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+
+            debugLog(`Calculated age: ${age}`);
+
+            if (age < 18) {
+                showResponse('createResponse', 'Співробітник повинен бути не молодше 18 років', true);
+                return;
+            }
+
+            if (experienceYear > age - 18) {
+                showResponse('createResponse', 'Досвід роботи не може перевищувати вік мінус 18 років', true);
+                return;
+            }
+
+            // Отправка данных
+            showLoading('createResponse');
+            debugLog('Sending request to server...');
+
+            try {
+                const response = await fetch(API_BASE, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(employeeData)
+                });
+
+                debugLog(`Server response status: ${response.status}`);
+
+                const data = await response.json();
+                debugLog(`Server response data: ${JSON.stringify(data)}`);
+
+                if (response.ok) {
+                    showResponse('createResponse', 'Співробітника успішно створено!');
+                    document.getElementById('createForm').reset();
+                    // Обновляем список сотрудников
+                    await getAllEmployees();
+                } else {
+                    showResponse('createResponse', data, true);
+                }
+            } catch (error) {
+                debugLog(`Error: ${error.message}`);
+                showResponse('createResponse', `Помилка: ${error.message}`, true);
+            }
+        }
+
+        // Load Employee for Update
+        async function loadEmployeeForUpdate() {
+            const id = document.getElementById('updateId').value;
+            if (!id) {
+                showResponse('updateResponse', 'Будь ласка, введіть ID співробітника', true);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/${id}`);
+                if (response.ok) {
+                    const employee = await response.json();
+
+                    // Populate form fields
+                    document.getElementById('updateName').value = employee.name;
+                    document.getElementById('updateLastName').value = employee.lastName;
+                    document.getElementById('updateSurname').value = employee.surname || '';
+
+                    // Find gender ID by name
+                    const gender = genders.find(g => g.genderName === employee.gender);
+                    document.getElementById('updateGender').value = gender ? gender.id : '';
+
+                    document.getElementById('updateDateOfBirth').value = employee.dateOfBirth.split('T')[0];
+                    document.getElementById('updatePhoneNumber').value = employee.phoneNumber;
+                    document.getElementById('updateAddress').value = employee.address;
+                    document.getElementById('updateCity').value = employee.city;
+
+                    // Find department ID by name
+                    const department = departments.find(d => d.departmentName === employee.departmentName);
+                    document.getElementById('updateDepartment').value = department ? department.id : '';
+
+                    // Find position ID by name
+                    const position = positions.find(p => p.jobTitleName === employee.jobTitleName);
+                    document.getElementById('updateJobTitle').value = position ? position.id : '';
+
+                    document.getElementById('updateExperienceYear').value = employee.experienceYear;
+                    document.getElementById('updateYearOfEmployment').value = employee.yearOfEmployment.split('T')[0];
+
+                    // Show the form
+                    document.getElementById('updateForm').style.display = 'block';
+                    showResponse('updateResponse', 'Дані співробітника завантажені успішно');
+                } else {
+                    const error = await response.json();
+                    showResponse('updateResponse', error, true);
+                }
+            } catch (error) {
+                showResponse('updateResponse', `Помилка: ${error.message}`, true);
+            }
+        }
+
+        // Update Employee
+        async function updateEmployee() {
+            const id = document.getElementById('updateId').value;
+            const employeeData = {
+                name: document.getElementById('updateName').value.trim(),
+                lastName: document.getElementById('updateLastName').value.trim(),
+                surname: document.getElementById('updateSurname').value.trim() || null,
+                gender: parseInt(document.getElementById('updateGender').value),
+                dateOfBirth: document.getElementById('updateDateOfBirth').value,
+                phoneNumber: document.getElementById('updatePhoneNumber').value.trim(),
+                address: document.getElementById('updateAddress').value.trim(),
+                city: document.getElementById('updateCity').value.trim(),
+                department: parseInt(document.getElementById('updateDepartment').value),
+                experienceYear: parseInt(document.getElementById('updateExperienceYear').value),
+                jobTitle: parseInt(document.getElementById('updateJobTitle').value),
+                yearOfEmployment: document.getElementById('updateYearOfEmployment').value
+            };
+
+            // Validation
+            if (!employeeData.name || !employeeData.lastName || !employeeData.phoneNumber) {
+                showResponse('updateResponse', 'Будь ласка, заповніть всі обов\'язкові поля', true);
+                return;
+            }
+
+            if (!employeeData.phoneNumber.match(/^380\d{9}$/)) {
+                showResponse('updateResponse', 'Номер телефону повинен починатися з 380 і містити 12 цифр', true);
+                return;
+            }
+
+            const birthDate = new Date(employeeData.dateOfBirth);
+            const age = new Date().getFullYear() - birthDate.getFullYear();
+            if (age < 18) {
+                showResponse('updateResponse', 'Співробітник повинен бути не молодше 18 років', true);
+                return;
+            }
+
+            if (employeeData.experienceYear > age - 18) {
+                showResponse('updateResponse', 'Досвід роботи не може перевищувати вік мінус 18 років', true);
+                return;
+            }
+
+            showLoading('updateResponse');
+            try {
+                const response = await fetch(`${API_BASE}/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(employeeData)
+                });
+
+                const data = await response.json();
+                showResponse('updateResponse', data, !response.ok);
+
+                if (response.ok) {
+                    await getAllEmployees();
+                }
+            } catch (error) {
+                showResponse('updateResponse', `Помилка: ${error.message}`, true);
+            }
+        }
+
+        // Delete Employee
+        async function deleteEmployee() {
+            const id = document.getElementById('deleteId').value;
+            if (!id) {
+                showResponse('deleteResponse', 'Будь ласка, введіть ID співробітника', true);
+                return;
+            }
+
+            if (!confirm(`Ви впевнені, що хочете видалити співробітника з ID ${id}?`)) {
+                return;
+            }
+
+            showLoading('deleteResponse');
+            try {
+                const response = await fetch(`${API_BASE}/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    showResponse('deleteResponse', `Співробітника з ID ${id} успішно видалено`);
+                    document.getElementById('deleteId').value = '';
+                    await getAllEmployees();
+                } else {
+                    const error = await response.json();
+                    showResponse('deleteResponse', error, true);
+                }
+            } catch (error) {
+                showResponse('deleteResponse', `Помилка: ${error.message}`, true);
+            }
+        }
+
+        // Set max date for date inputs (today)
+        function setMaxDates() {
+            const today = new Date().toISOString().split('T')[0];
+            const maxBirthDate = new Date();
+            maxBirthDate.setFullYear(maxBirthDate.getFullYear() - 18);
+            const maxBirth = maxBirthDate.toISOString().split('T')[0];
+
+            document.getElementById('createDateOfBirth').setAttribute('max', maxBirth);
+            document.getElementById('updateDateOfBirth').setAttribute('max', maxBirth);
+            document.getElementById('updateYearOfEmployment').setAttribute('max', today);
+        }
     </script>
 </body>
 </html>
