@@ -847,5 +847,47 @@ namespace ProductsShopWebAPI.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+
+
+        /// <summary>
+        /// Get employees by position and experience range
+        /// </summary>
+        /// <param name="jobTitleId">Job title ID</param>
+        /// <param name="minExperience">Minimum experience (default: 0)</param>
+        /// <param name="maxExperience">Maximum experience (default: 100)</param>
+        /// <returns>List of employees matching criteria</returns>
+        [HttpGet("position/{jobTitleId}/experience")]
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployeesByPositionAndExperience(
+            int jobTitleId,
+            [FromQuery] int minExperience = 0,
+            [FromQuery] int maxExperience = 100)
+        {
+            try
+            {
+                _logger.LogInformation("Getting employees for position {JobTitleId} with experience {MinExp}-{MaxExp}",
+                    jobTitleId, minExperience, maxExperience);
+
+                if (jobTitleId <= 0)
+                {
+                    return BadRequest("Invalid job title ID");
+                }
+
+                if (minExperience < 0 || maxExperience < 0 || minExperience > maxExperience)
+                {
+                    return BadRequest("Invalid experience range");
+                }
+
+                var employees = await _employeeService.GetEmployeesByPositionAndExperienceAsync(
+                    jobTitleId, minExperience, maxExperience);
+
+                return Ok(employees);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting employees by position and experience");
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }

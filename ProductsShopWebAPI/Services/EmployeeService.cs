@@ -601,5 +601,59 @@ namespace ProductsShopWebAPI.Services
             command.Parameters.AddWithValue("@ExperienceYear", request.ExperienceYear);
             command.Parameters.AddWithValue("@JobTitle", request.JobTitle);
         }
+
+        // Добавьте этот метод в класс EmployeeService
+
+        public async Task<IEnumerable<EmployeeDto>> GetEmployeesByPositionAndExperienceAsync(
+            int jobTitleId,
+            int minExperience = 0,
+            int maxExperience = 100)
+        {
+            var employees = new List<EmployeeDto>();
+
+            try
+            {
+                using var connection = await _databaseService.CreateConnectionAsync();
+
+                var sql = "EXEC GetEmployeesByPositionAndExperience @JobTitleId, @MinExperience, @MaxExperience";
+
+                using var command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@JobTitleId", jobTitleId);
+                command.Parameters.AddWithValue("@MinExperience", minExperience);
+                command.Parameters.AddWithValue("@MaxExperience", maxExperience);
+
+                using var reader = await command.ExecuteReaderAsync();
+
+                while (await reader.ReadAsync())
+                {
+                    employees.Add(new EmployeeDto
+                    {
+                        Id = reader.GetInt32("Id"),
+                        Name = reader.GetString("Name"),
+                        LastName = reader.GetString("LastName"),
+                        Surname = reader.IsDBNull("Surname") ? null : reader.GetString("Surname"),
+                        Gender = reader.GetString("Gender"),
+                        DateOfBirth = reader.GetDateTime("DateOfBirth"),
+                        PhoneNumber = reader.GetString("PhoneNumber"),
+                        Address = reader.GetString("Address"),
+                        City = reader.GetString("City"),
+                        DepartmentName = reader.GetString("DepartmentName"),
+                        ExperienceYear = reader.GetInt32("ExperienceYear"),
+                        JobTitleName = reader.GetString("JobTitleName"),
+                        Salary = reader.GetDecimal("Salary"),
+                        WorkingTime = reader.GetInt32("WorkingTime"),
+                        YearOfEmployment = reader.GetDateTime("YearOfEmployment")
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting employees by position {JobTitleId} and experience {MinExp}-{MaxExp}",
+                    jobTitleId, minExperience, maxExperience);
+                throw;
+            }
+
+            return employees;
+        }
     }
 }
