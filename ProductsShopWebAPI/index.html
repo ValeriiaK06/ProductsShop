@@ -581,7 +581,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Система управління співробітниками</title>
+    <title>Система управління співробітниками та товарами</title>
     <style>
         * {
             margin: 0;
@@ -896,17 +896,35 @@
                 transform: rotate(360deg);
             }
         }
+
+        .section-separator {
+            margin: 50px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+            color: white;
+            text-align: center;
+            border-radius: 15px;
+        }
+
+            .section-separator h2 {
+                font-size: 2em;
+                margin-bottom: 10px;
+            }
+
+            .section-separator p {
+                font-size: 1.1em;
+            }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏢 Система управління співробітниками</h1>
+            <h1>🏢 Система управління співробітниками та товарами</h1>
             <p>Підключення до бази даних SQL Server</p>
         </div>
 
         <div class="content">
-            <!-- Statistics -->
+            <!-- Employee Statistics -->
             <div class="stats-bar" id="statsBar" style="display: none;">
                 <div class="stat-card">
                     <div class="stat-number" id="totalEmployees">0</div>
@@ -1156,21 +1174,233 @@
                 <button class="delete" onclick="deleteEmployee()">Видалити співробітника</button>
                 <div id="deleteResponse" class="response" style="display: none;"></div>
             </div>
+
+            <!-- ================= GOODS MANAGEMENT SECTION ================= -->
+            <div class="section-separator">
+                <h2>🛒 УПРАВЛІННЯ ТОВАРАМИ</h2>
+                <p>Система керування товарами магазину</p>
+            </div>
+
+            <!-- Goods Statistics -->
+            <div class="stats-bar" id="goodsStatsBar" style="display: none;">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalGoods">0</div>
+                    <div class="stat-label">Всього товарів</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="expiringGoods">0</div>
+                    <div class="stat-label">З терміном годності</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="avgTemperature">0°C</div>
+                    <div class="stat-label">Середня температура</div>
+                </div>
+            </div>
+
+            <!-- Get All Goods Section -->
+            <div class="section">
+                <h3>📦 Всі товари</h3>
+                <div class="api-url">GET /api/goods</div>
+                <button onclick="getAllGoods()">
+                    <span id="loadAllGoodsSpinner" style="display: none;" class="loading-spinner"></span>
+                    Завантажити всі товари
+                </button>
+                <div id="goodsGrid" class="employees-grid"></div>
+            </div>
+
+            <!-- Get Goods by ID Section -->
+            <div class="section">
+                <h3>🔍 Пошук товару за ID</h3>
+                <div class="api-url">GET /api/goods/{id}</div>
+                <div class="form-group">
+                    <label for="goodsId">ID товару:</label>
+                    <select id="goodsId">
+                        <option value="">Виберіть ID товару</option>
+                    </select>
+                </div>
+                <button onclick="getGoodsById()">Знайти товар</button>
+                <div id="goodsByIdResponse" class="response" style="display: none;"></div>
+                <div id="goodsByIdGrid" class="employees-grid"></div>
+            </div>
+
+            <!-- Get Expiring Goods Section -->
+            <div class="section">
+                <h3>⏰ Товари з терміном годності</h3>
+                <div class="api-url">GET /api/goods/expiring</div>
+                <button onclick="getExpiringGoods()">Показати товари з терміном годності</button>
+                <div id="expiringGoodsResponse" class="response" style="display: none;"></div>
+                <div id="expiringGoodsGrid" class="employees-grid"></div>
+            </div>
+
+            <!-- Get Non-Expiring Goods Section -->
+            <div class="section">
+                <h3>♾️ Товари без терміну годності</h3>
+                <div class="api-url">GET /api/goods/non-expiring</div>
+                <button onclick="getNonExpiringGoods()">Показати товари без терміну годності</button>
+                <div id="nonExpiringGoodsResponse" class="response" style="display: none;"></div>
+                <div id="nonExpiringGoodsGrid" class="employees-grid"></div>
+            </div>
+
+            <!-- Department Analysis Section -->
+            <div class="section">
+                <h3>📊 Аналіз товарів у відділі</h3>
+                <div class="api-url">GET /api/goods/department-analysis/{departmentName}</div>
+                <div class="form-group">
+                    <label for="analysisDepartmentName">Відділ для аналізу:</label>
+                    <select id="analysisDepartmentName">
+                        <option value="">Виберіть відділ</option>
+                    </select>
+                </div>
+                <button onclick="getDepartmentAnalysis()">Провести аналіз відділу</button>
+                <div id="departmentAnalysisResponse" class="response" style="display: none;"></div>
+                <div id="departmentAnalysisGrid" class="employees-grid"></div>
+            </div>
+
+            <!-- Create Goods Section -->
+            <div class="section">
+                <h3>➕ Додати новий товар</h3>
+                <div class="api-url">POST /api/goods</div>
+                <form id="createGoodsForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="createGoodsProductName">Назва товару: *</label>
+                            <input type="text" id="createGoodsProductName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="createGoodsManufacturer">Виробник: *</label>
+                            <input type="text" id="createGoodsManufacturer" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="createGoodsDepartment">Відділ: *</label>
+                            <select id="createGoodsDepartment" required>
+                                <option value="">Виберіть відділ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="createGoodsCountry">Країна: *</label>
+                            <select id="createGoodsCountry" required>
+                                <option value="">Виберіть країну</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="createGoodsTemperature">Температура зберігання (°C): *</label>
+                            <input type="number" id="createGoodsTemperature" min="-100" max="100" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="createGoodsIsExpiring">Має термін годності: *</label>
+                            <select id="createGoodsIsExpiring" required onchange="toggleGoodsTermField('create')">
+                                <option value="">Виберіть</option>
+                                <option value="true">Так</option>
+                                <option value="false">Ні</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="createGoodsTermGroup" style="display: none;">
+                            <label for="createGoodsTerm">Термін зберігання (днів):</label>
+                            <input type="number" id="createGoodsTerm" min="1">
+                        </div>
+                    </div>
+                    <button type="button" onclick="createGoods()">Створити товар</button>
+                </form>
+                <div id="createGoodsResponse" class="response" style="display: none;"></div>
+            </div>
+
+            <!-- Update Goods Section -->
+            <div class="section">
+                <h3>✏️ Редагувати товар</h3>
+                <div class="api-url">PUT /api/goods/{id}</div>
+                <div class="form-group">
+                    <label for="updateGoodsId">ID товару для редагування:</label>
+                    <select id="updateGoodsId" required>
+                        <option value="">Виберіть ID товару</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <button type="button" onclick="loadGoodsForUpdate()">Завантажити дані</button>
+                </div>
+                <form id="updateGoodsForm" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="updateGoodsProductName">Назва товару:</label>
+                            <input type="text" id="updateGoodsProductName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateGoodsManufacturer">Виробник:</label>
+                            <input type="text" id="updateGoodsManufacturer" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="updateGoodsDepartment">Відділ:</label>
+                            <select id="updateGoodsDepartment" required>
+                                <option value="">Виберіть відділ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateGoodsCountry">Країна:</label>
+                            <select id="updateGoodsCountry" required>
+                                <option value="">Виберіть країну</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="updateGoodsTemperature">Температура зберігання (°C):</label>
+                            <input type="number" id="updateGoodsTemperature" min="-100" max="100" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateGoodsIsExpiring">Має термін годності:</label>
+                            <select id="updateGoodsIsExpiring" required onchange="toggleGoodsTermField('update')">
+                                <option value="">Виберіть</option>
+                                <option value="true">Так</option>
+                                <option value="false">Ні</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="updateGoodsTermGroup" style="display: none;">
+                            <label for="updateGoodsTerm">Термін зберігання (днів):</label>
+                            <input type="number" id="updateGoodsTerm" min="1">
+                        </div>
+                    </div>
+                    <button type="button" class="update" onclick="updateGoods()">Оновити товар</button>
+                </form>
+                <div id="updateGoodsResponse" class="response" style="display: none;"></div>
+            </div>
+
+            <!-- Delete Goods Section -->
+            <div class="section">
+                <h3>🗑️ Видалити товар</h3>
+                <div class="api-url">DELETE /api/goods/{id}</div>
+                <div class="form-group">
+                    <label for="deleteGoodsId">ID товару для видалення:</label>
+                    <select id="deleteGoodsId" required>
+                        <option value="">Виберіть ID товару</option>
+                    </select>
+                </div>
+                <button class="delete" onclick="deleteGoods()">Видалити товар</button>
+                <div id="deleteGoodsResponse" class="response" style="display: none;"></div>
+            </div>
         </div>
     </div>
 
     <script>
         const API_BASE = 'http://localhost:5109/api/employees';
+        const GOODS_API_BASE = 'http://localhost:5109/api/goods';
 
         let genders = [];
         let departments = [];
         let positions = [];
         let allEmployees = [];
+        let allGoods = [];
+        let countries = [];
 
         // Initialize the page
         window.addEventListener('load', async () => {
             setMaxDates();
             await loadReferenceData();
+            await loadGoodsReferenceData();
             // Убираем автозагрузку всех сотрудников
         });
 
@@ -1370,50 +1600,50 @@
             }
 
             grid.innerHTML = employees.map(emp => `
-                        <div class="employee-card">
-                            <h4>${emp.fullName}</h4>
-                            <div class="employee-info">
-                                <span>ID:</span>
-                                <div class="employee-value">${emp.id}</div>
+                            <div class="employee-card">
+                                <h4>${emp.fullName}</h4>
+                                <div class="employee-info">
+                                    <span>ID:</span>
+                                    <div class="employee-value">${emp.id}</div>
+                                </div>
+                                <div class="employee-info">
+                                    <span>Стать:</span>
+                                    <div class="employee-value">${emp.gender}</div>
+                                </div>
+                                <div class="employee-info">
+                                    <span>Вік:</span>
+                                    <div class="employee-value">${emp.age} років</div>
+                                </div>
+                                <div class="employee-info">
+                                    <span>Телефон:</span>
+                                    <div class="employee-value">${emp.phoneNumber}</div>
+                                </div>
+                                <div class="employee-info">
+                                    <span>Місто:</span>
+                                    <div class="employee-value">${emp.city}</div>
+                                </div>
+                                <div class="employee-info">
+                                    <span>Відділ:</span>
+                                    <div class="employee-value">${emp.departmentName}</div>
+                                </div>
+                                <div class="employee-info">
+                                    <span>Посада:</span>
+                                    <div class="employee-value">${emp.jobTitleName}</div>
+                                </div>
+                                <div class="employee-info">
+                                    <span>Зарплата:</span>
+                                    <div class="employee-value">${emp.salary.toLocaleString()} грн</div>
+                                </div>
+                                <div class="employee-info">
+                                    <span>Досвід:</span>
+                                    <div class="employee-value">${emp.experienceYear} років</div>
+                                </div>
+                                <div class="employee-info">
+                                    <span>Прийнятий:</span>
+                                    <div class="employee-value">${new Date(emp.yearOfEmployment).toLocaleDateString('uk-UA')}</div>
+                                </div>
                             </div>
-                            <div class="employee-info">
-                                <span>Стать:</span>
-                                <div class="employee-value">${emp.gender}</div>
-                            </div>
-                            <div class="employee-info">
-                                <span>Вік:</span>
-                                <div class="employee-value">${emp.age} років</div>
-                            </div>
-                            <div class="employee-info">
-                                <span>Телефон:</span>
-                                <div class="employee-value">${emp.phoneNumber}</div>
-                            </div>
-                            <div class="employee-info">
-                                <span>Місто:</span>
-                                <div class="employee-value">${emp.city}</div>
-                            </div>
-                            <div class="employee-info">
-                                <span>Відділ:</span>
-                                <div class="employee-value">${emp.departmentName}</div>
-                            </div>
-                            <div class="employee-info">
-                                <span>Посада:</span>
-                                <div class="employee-value">${emp.jobTitleName}</div>
-                            </div>
-                            <div class="employee-info">
-                                <span>Зарплата:</span>
-                                <div class="employee-value">${emp.salary.toLocaleString()} грн</div>
-                            </div>
-                            <div class="employee-info">
-                                <span>Досвід:</span>
-                                <div class="employee-value">${emp.experienceYear} років</div>
-                            </div>
-                            <div class="employee-info">
-                                <span>Прийнятий:</span>
-                                <div class="employee-value">${new Date(emp.yearOfEmployment).toLocaleDateString('uk-UA')}</div>
-                            </div>
-                        </div>
-                    `).join('');
+                        `).join('');
         }
 
         // Get Employee by ID
@@ -1757,6 +1987,549 @@
             document.getElementById('updateDateOfBirth').setAttribute('max', maxBirth);
             document.getElementById('createYearOfEmployment').setAttribute('max', today);
             document.getElementById('updateYearOfEmployment').setAttribute('max', today);
+        }
+
+        // ================= GOODS MANAGEMENT FUNCTIONS =================
+
+        // Load goods reference data
+        async function loadGoodsReferenceData() {
+            try {
+                // Load countries for goods
+                const countriesResponse = await fetch(`${GOODS_API_BASE}/countries`);
+                if (countriesResponse.ok) {
+                    countries = await countriesResponse.json();
+                    populateCountrySelects();
+                }
+
+                // Reuse departments from employee service
+                populateGoodsDepartmentSelects();
+            } catch (error) {
+                console.error('Error loading goods reference data:', error);
+            }
+        }
+
+        function populateCountrySelects() {
+            const selects = ['createGoodsCountry', 'updateGoodsCountry'];
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                select.innerHTML = '<option value="">Виберіть країну</option>';
+                countries.forEach(country => {
+                    select.innerHTML += `<option value="${country.id}">${country.countryName}</option>`;
+                });
+            });
+        }
+
+        function populateGoodsDepartmentSelects() {
+            const selects = ['createGoodsDepartment', 'updateGoodsDepartment', 'analysisDepartmentName'];
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                const isForAnalysis = selectId === 'analysisDepartmentName';
+                select.innerHTML = '<option value="">Виберіть відділ</option>';
+
+                departments.forEach(dept => {
+                    const value = isForAnalysis ? dept.departmentName : dept.id;
+                    select.innerHTML += `<option value="${value}">${dept.departmentName}</option>`;
+                });
+            });
+        }
+
+        function populateGoodsIdSelects() {
+            const selects = ['goodsId', 'updateGoodsId', 'deleteGoodsId'];
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                select.innerHTML = '<option value="">Виберіть ID товару</option>';
+                allGoods.forEach(goods => {
+                    select.innerHTML += `<option value="${goods.id}">${goods.id} - ${goods.productName}</option>`;
+                });
+            });
+        }
+
+        function toggleGoodsTermField(prefix) {
+            const isExpiringSelect = document.getElementById(`${prefix}GoodsIsExpiring`);
+            const termGroup = document.getElementById(`${prefix}GoodsTermGroup`);
+            const termInput = document.getElementById(`${prefix}GoodsTerm`);
+
+            if (isExpiringSelect.value === 'true') {
+                termGroup.style.display = 'block';
+                // Убираем required - пусть триггер сам устанавливает значение
+                // termInput.setAttribute('required', 'required');
+            } else {
+                termGroup.style.display = 'none';
+                termInput.removeAttribute('required');
+                termInput.value = '';
+            }
+        }
+
+        // Get All Goods
+        async function getAllGoods() {
+            const spinner = document.getElementById('loadAllGoodsSpinner');
+            spinner.style.display = 'inline-block';
+
+            try {
+                const response = await fetch(GOODS_API_BASE);
+                const data = await response.json();
+
+                if (response.ok) {
+                    allGoods = data;
+                    displayGoodsGrid(data, 'goodsGrid');
+                    updateGoodsStats(data);
+                    populateGoodsIdSelects();
+                } else {
+                    console.error('Error loading goods:', data);
+                    document.getElementById('goodsGrid').innerHTML = '<p style="text-align: center; padding: 20px; color: #e53e3e;">Помилка завантаження товарів</p>';
+                }
+            } catch (error) {
+                console.error('Error loading goods:', error);
+                document.getElementById('goodsGrid').innerHTML = '<p style="text-align: center; padding: 20px; color: #e53e3e;">Помилка підключення до сервера</p>';
+            } finally {
+                spinner.style.display = 'none';
+            }
+        }
+
+        // Display goods in grid format
+        function displayGoodsGrid(goods, gridId) {
+            const grid = document.getElementById(gridId);
+            if (goods.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; padding: 20px; color: #718096;">Товари не знайдені.</p>';
+                return;
+            }
+
+            grid.innerHTML = goods.map(item => `
+                    <div class="employee-card">
+                        <h4>${item.productName}</h4>
+                        <div class="employee-info">
+                            <span>ID:</span>
+                            <div class="employee-value">${item.id}</div>
+                        </div>
+                        <div class="employee-info">
+                            <span>Виробник:</span>
+                            <div class="employee-value">${item.manufacturer}</div>
+                        </div>
+                        <div class="employee-info">
+                            <span>Відділ:</span>
+                            <div class="employee-value">${item.departmentName}</div>
+                        </div>
+                        <div class="employee-info">
+                            <span>Країна:</span>
+                            <div class="employee-value">${item.countryName}</div>
+                        </div>
+                        <div class="employee-info">
+                            <span>Температура:</span>
+                            <div class="employee-value">${item.temperatureDisplay}</div>
+                        </div>
+                        <div class="employee-info">
+                            <span>Термін годності:</span>
+                            <div class="employee-value">${item.expirationStatus}</div>
+                        </div>
+                    </div>
+                `).join('');
+        }
+
+        function updateGoodsStats(goods) {
+            if (goods && goods.length > 0) {
+                const expiringCount = goods.filter(g => g.is_Expiring).length;
+                const avgTemp = goods.reduce((sum, g) => sum + g.conditions_Temperature, 0) / goods.length;
+
+                document.getElementById('totalGoods').textContent = goods.length;
+                document.getElementById('expiringGoods').textContent = expiringCount;
+                document.getElementById('avgTemperature').textContent = avgTemp.toFixed(1) + '°C';
+
+                document.getElementById('goodsStatsBar').style.display = 'grid';
+            }
+        }
+
+        // Get Goods by ID
+        async function getGoodsById() {
+            const id = document.getElementById('goodsId').value;
+            if (!id) {
+                showResponse('goodsByIdResponse', 'Будь ласка, виберіть ID товару', true);
+                document.getElementById('goodsByIdGrid').innerHTML = '';
+                return;
+            }
+
+            showLoading('goodsByIdResponse');
+            try {
+                const response = await fetch(`${GOODS_API_BASE}/${id}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    showResponse('goodsByIdResponse', `Знайдено товар з ID ${id}`);
+                    displayGoodsGrid([data], 'goodsByIdGrid');
+                } else {
+                    showResponse('goodsByIdResponse', data, true);
+                    document.getElementById('goodsByIdGrid').innerHTML = '';
+                }
+            } catch (error) {
+                showResponse('goodsByIdResponse', `Помилка: ${error.message}`, true);
+                document.getElementById('goodsByIdGrid').innerHTML = '';
+            }
+        }
+
+        // Get Expiring Goods
+        async function getExpiringGoods() {
+            showLoading('expiringGoodsResponse');
+            try {
+                const response = await fetch(`${GOODS_API_BASE}/expiring`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    showResponse('expiringGoodsResponse', `Знайдено ${data.length} товарів з терміном годності`);
+                    displayGoodsGrid(data, 'expiringGoodsGrid');
+                } else {
+                    showResponse('expiringGoodsResponse', data, true);
+                    document.getElementById('expiringGoodsGrid').innerHTML = '';
+                }
+            } catch (error) {
+                showResponse('expiringGoodsResponse', `Помилка: ${error.message}`, true);
+                document.getElementById('expiringGoodsGrid').innerHTML = '';
+            }
+        }
+
+        // Get Non-Expiring Goods
+        async function getNonExpiringGoods() {
+            showLoading('nonExpiringGoodsResponse');
+            try {
+                const response = await fetch(`${GOODS_API_BASE}/non-expiring`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    showResponse('nonExpiringGoodsResponse', `Знайдено ${data.length} товарів без терміну годності`);
+                    displayGoodsGrid(data, 'nonExpiringGoodsGrid');
+                } else {
+                    showResponse('nonExpiringGoodsResponse', data, true);
+                    document.getElementById('nonExpiringGoodsGrid').innerHTML = '';
+                }
+            } catch (error) {
+                showResponse('nonExpiringGoodsResponse', `Помилка: ${error.message}`, true);
+                document.getElementById('nonExpiringGoodsGrid').innerHTML = '';
+            }
+        }
+
+        // Get Department Analysis
+        async function getDepartmentAnalysis() {
+            const departmentName = document.getElementById('analysisDepartmentName').value;
+            if (!departmentName) {
+                showResponse('departmentAnalysisResponse', 'Будь ласка, виберіть відділ', true);
+                document.getElementById('departmentAnalysisGrid').innerHTML = '';
+                return;
+            }
+
+            showLoading('departmentAnalysisResponse');
+            try {
+                const response = await fetch(`${GOODS_API_BASE}/department-analysis/${encodeURIComponent(departmentName)}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    showResponse('departmentAnalysisResponse', data.summary);
+
+                    // Display analysis as a special card
+                    const analysisHtml = `
+                            <div class="employee-card" style="background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%); color: white;">
+                                <h4 style="color: white;">📊 Аналіз відділу "${data.departmentName}"</h4>
+                                <div class="employee-info" style="color: rgba(255,255,255,0.9);">
+                                    <span style="color: white;">Всього товарів:</span>
+                                    <div class="employee-value" style="color: white; font-weight: bold;">${data.productCount}</div>
+                                </div>
+                                <div class="employee-info" style="color: rgba(255,255,255,0.9);">
+                                    <span style="color: white;">З терміном годності:</span>
+                                    <div class="employee-value" style="color: white; font-weight: bold;">${data.expiringProductCount}</div>
+                                </div>
+                                <div class="employee-info" style="color: rgba(255,255,255,0.9);">
+                                    <span style="color: white;">Середня температура:</span>
+                                    <div class="employee-value" style="color: white; font-weight: bold;">${data.avgStorageTemp.toFixed(1)}°C</div>
+                                </div>
+                                <div class="employee-info" style="color: rgba(255,255,255,0.9);">
+                                    <span style="color: white;">Макс. термін:</span>
+                                    <div class="employee-value" style="color: white; font-weight: bold;">${data.maxTermDays || 'Н/Д'} днів</div>
+                                </div>
+                            </div>
+                        `;
+                    document.getElementById('departmentAnalysisGrid').innerHTML = analysisHtml;
+                } else {
+                    showResponse('departmentAnalysisResponse', data, true);
+                    document.getElementById('departmentAnalysisGrid').innerHTML = '';
+                }
+            } catch (error) {
+                showResponse('departmentAnalysisResponse', `Помилка: ${error.message}`, true);
+                document.getElementById('departmentAnalysisGrid').innerHTML = '';
+            }
+        }
+
+        // Parse trigger messages for goods
+        function parseGoodsTriggerMessage(errorResponse) {
+            let message = '';
+
+            if (typeof errorResponse === 'string') {
+                message = errorResponse;
+            } else if (errorResponse.title || errorResponse.detail || errorResponse.message) {
+                message = errorResponse.title || errorResponse.detail || errorResponse.message;
+            } else {
+                message = JSON.stringify(errorResponse);
+            }
+
+            // Переводим сообщения триггеров товаров на украинский
+            const goodsTriggerMessages = {
+                'Temperature must be between -100 and 100 degrees!': '❌ Температура повинна бути від -100 до 100 градусів!',
+                'Term must be positive when Is_Expiring is true!': '❌ Термін повинен бути позитивним, коли товар має термін годності!',
+                'Term cannot be specified when Is_Expiring is false!': '❌ Термін не може бути вказаний, коли товар не має терміну годності!',
+                'The specified department does not exist!': '❌ Вказаний відділ не існує!',
+                'The specified country does not exist!': '❌ Вказана країна не існує!'
+            };
+
+            // Ищем совпадения в сообщениях
+            for (const [englishMsg, ukrainianMsg] of Object.entries(goodsTriggerMessages)) {
+                if (message.includes(englishMsg)) {
+                    return ukrainianMsg;
+                }
+            }
+
+            // Если не нашли конкретного сообщения триггера, возвращаем оригинал
+            return `⚠️ Помилка валідації товару: ${message}`;
+        }
+
+        // Create Goods
+        async function createGoods() {
+            const productName = document.getElementById('createGoodsProductName').value.trim();
+            const manufacturer = document.getElementById('createGoodsManufacturer').value.trim();
+            const departmentValue = document.getElementById('createGoodsDepartment').value;
+            const countryValue = document.getElementById('createGoodsCountry').value;
+            const temperatureValue = document.getElementById('createGoodsTemperature').value;
+            const isExpiringValue = document.getElementById('createGoodsIsExpiring').value;
+            const termValue = document.getElementById('createGoodsTerm').value;
+
+            // Проверяем обязательные поля
+            if (!productName || !manufacturer || !departmentValue || !countryValue ||
+                !temperatureValue || !isExpiringValue) {
+                showResponse('createGoodsResponse', 'Будь ласка, заповніть всі обов\'язкові поля (позначені *)', true);
+                return;
+            }
+
+            // Конвертируем в нужные типы
+            const department = parseInt(departmentValue);
+            const country = parseInt(countryValue);
+            const temperature = parseFloat(temperatureValue);
+            const isExpiring = isExpiringValue === 'true';
+            const term = termValue ? parseInt(termValue) : null;
+
+            // Проверяем что конвертация прошла успешно
+            if (isNaN(department) || isNaN(country) || isNaN(temperature)) {
+                showResponse('createGoodsResponse', 'Помилка: неправильні числові значення в полях', true);
+                return;
+            }
+
+            // Убираем клиентскую валидацию терміна - пусть триггер сам устанавливает значения
+            // if (isExpiring && (!term || term <= 0)) {
+            //     showResponse('createGoodsResponse', 'Будь ласка, вкажіть термін зберігання для товару з терміном годності', true);
+            //     return;
+            // }
+
+            // Создаем объект данных
+            const goodsData = {
+                productName: productName,
+                manufacturer: manufacturer,
+                department: department,
+                country: country,
+                conditions_Temperature: temperature,
+                is_Expiring: isExpiring,
+                term: isExpiring ? term : null
+            };
+
+            showLoading('createGoodsResponse');
+
+            try {
+                const response = await fetch(GOODS_API_BASE, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(goodsData)
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+
+                    // Проверяем, был ли автоматически установлен термін
+                    const originalTerm = goodsData.term;
+                    const returnedTerm = data.term;
+
+                    if (isExpiring && !originalTerm && returnedTerm) {
+                        showSuccess('createGoodsResponse',
+                            `Товар успішно створено! 📅 Термін зберігання був автоматично встановлений на ${returnedTerm} днів згідно з правилами відділу.`);
+                    } else {
+                        showSuccess('createGoodsResponse', 'Товар успішно створено!');
+                    }
+
+                    document.getElementById('createGoodsForm').reset();
+                    toggleGoodsTermField('create'); // Скрываем поле термина
+                    await getAllGoods();
+                } else {
+                    const errorData = await response.json();
+                    const translatedMessage = parseGoodsTriggerMessage(errorData);
+                    showResponse('createGoodsResponse', translatedMessage, true);
+                }
+            } catch (error) {
+                showResponse('createGoodsResponse', `Помилка підключення: ${error.message}`, true);
+            }
+        }
+
+        // Load Goods for Update
+        async function loadGoodsForUpdate() {
+            const id = document.getElementById('updateGoodsId').value;
+            if (!id) {
+                showResponse('updateGoodsResponse', 'Будь ласка, виберіть ID товару', true);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${GOODS_API_BASE}/${id}`);
+                if (response.ok) {
+                    const goods = await response.json();
+
+                    // Populate form fields
+                    document.getElementById('updateGoodsProductName').value = goods.productName;
+                    document.getElementById('updateGoodsManufacturer').value = goods.manufacturer;
+
+                    // Find department ID by name
+                    const department = departments.find(d => d.departmentName === goods.departmentName);
+                    document.getElementById('updateGoodsDepartment').value = department ? department.id : '';
+
+                    // Find country ID by name
+                    const country = countries.find(c => c.countryName === goods.countryName);
+                    document.getElementById('updateGoodsCountry').value = country ? country.id : '';
+
+                    document.getElementById('updateGoodsTemperature').value = goods.conditions_Temperature;
+                    document.getElementById('updateGoodsIsExpiring').value = goods.is_Expiring.toString();
+                    document.getElementById('updateGoodsTerm').value = goods.term || '';
+
+                    // Toggle term field based on expiring status
+                    toggleGoodsTermField('update');
+
+                    // Show the form
+                    document.getElementById('updateGoodsForm').style.display = 'block';
+                    showResponse('updateGoodsResponse', 'Дані товару завантажені успішно');
+                } else {
+                    const error = await response.json();
+                    showResponse('updateGoodsResponse', error, true);
+                }
+            } catch (error) {
+                showResponse('updateGoodsResponse', `Помилка: ${error.message}`, true);
+            }
+        }
+
+        // Update Goods
+        async function updateGoods() {
+            const id = document.getElementById('updateGoodsId').value;
+            const productName = document.getElementById('updateGoodsProductName').value.trim();
+            const manufacturer = document.getElementById('updateGoodsManufacturer').value.trim();
+            const departmentValue = document.getElementById('updateGoodsDepartment').value;
+            const countryValue = document.getElementById('updateGoodsCountry').value;
+            const temperatureValue = document.getElementById('updateGoodsTemperature').value;
+            const isExpiringValue = document.getElementById('updateGoodsIsExpiring').value;
+            const termValue = document.getElementById('updateGoodsTerm').value;
+
+            // Validation
+            if (!productName || !manufacturer || !departmentValue || !countryValue ||
+                !temperatureValue || !isExpiringValue) {
+                showResponse('updateGoodsResponse', 'Будь ласка, заповніть всі обов\'язкові поля', true);
+                return;
+            }
+
+            const department = parseInt(departmentValue);
+            const country = parseInt(countryValue);
+            const temperature = parseFloat(temperatureValue);
+            const isExpiring = isExpiringValue === 'true';
+            const term = termValue ? parseInt(termValue) : null;
+
+            if (isNaN(department) || isNaN(country) || isNaN(temperature)) {
+                showResponse('updateGoodsResponse', 'Помилка: неправильні числові значення в полях', true);
+                return;
+            }
+
+            // Убираем клиентскую валидацию терміна для update - пусть триггер работает
+            // if (isExpiring && (!term || term <= 0)) {
+            //     showResponse('updateGoodsResponse', 'Будь ласка, вкажіть термін зберігання для товару з терміном годності', true);
+            //     return;
+            // }
+
+            const goodsData = {
+                productName: productName,
+                manufacturer: manufacturer,
+                department: department,
+                country: country,
+                conditions_Temperature: temperature,
+                is_Expiring: isExpiring,
+                term: isExpiring ? term : null
+            };
+
+            showLoading('updateGoodsResponse');
+
+            try {
+                const originalTerm = goodsData.term;
+
+                const response = await fetch(`${GOODS_API_BASE}/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(goodsData)
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    await getAllGoods();
+                    document.getElementById('updateGoodsForm').style.display = 'none';
+
+                    // Проверяем, был ли автоматически установлен термін
+                    const returnedTerm = data.term;
+                    if (isExpiring && !originalTerm && returnedTerm) {
+                        showSuccess('updateGoodsResponse',
+                            `Дані товару успішно оновлено! 📅 Термін зберігання був автоматично встановлений на ${returnedTerm} днів згідно з правилами відділу.`);
+                    } else {
+                        showSuccess('updateGoodsResponse', 'Дані товару успішно оновлено!');
+                    }
+                } else {
+                    const errorData = await response.json();
+                    const translatedMessage = parseGoodsTriggerMessage(errorData);
+                    showResponse('updateGoodsResponse', translatedMessage, true);
+                }
+            } catch (error) {
+                showResponse('updateGoodsResponse', `Помилка підключення: ${error.message}`, true);
+            }
+        }
+
+        // Delete Goods
+        async function deleteGoods() {
+            const id = document.getElementById('deleteGoodsId').value;
+            if (!id) {
+                showResponse('deleteGoodsResponse', 'Будь ласка, виберіть ID товару', true);
+                return;
+            }
+
+            // Находим название товара для подтверждения
+            const goods = allGoods.find(g => g.id == id);
+            const goodsName = goods ? goods.productName : `ID ${id}`;
+
+            if (!confirm(`Ви впевнені, що хочете видалити товар "${goodsName}"?`)) {
+                return;
+            }
+
+            showLoading('deleteGoodsResponse');
+            try {
+                const response = await fetch(`${GOODS_API_BASE}/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    showResponse('deleteGoodsResponse', `Товар "${goodsName}" успішно видалено`);
+                    document.getElementById('deleteGoodsId').value = '';
+                    await getAllGoods();
+                } else {
+                    const error = await response.json();
+                    showResponse('deleteGoodsResponse', error, true);
+                }
+            } catch (error) {
+                showResponse('deleteGoodsResponse', `Помилка: ${error.message}`, true);
+            }
         }
     </script>
 </body>
