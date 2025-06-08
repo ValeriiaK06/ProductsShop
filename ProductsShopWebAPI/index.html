@@ -1224,12 +1224,63 @@
             });
         }
 
-        // Utility functions
+        // Utility function to parse and display trigger messages
+        function parseTriggerMessage(errorResponse) {
+            let message = '';
+
+            if (typeof errorResponse === 'string') {
+                message = errorResponse;
+            } else if (errorResponse.title || errorResponse.detail || errorResponse.message) {
+                message = errorResponse.title || errorResponse.detail || errorResponse.message;
+            } else {
+                message = JSON.stringify(errorResponse);
+            }
+
+            // Переводим сообщения триггеров на украинский
+            const triggerMessages = {
+                'Employee must be at least 18 years old!': '❌ Співробітник повинен бути не молодше 18 років!',
+                'Work experience cannot exceed employee age minus 18 years!': '❌ Досвід роботи не може перевищувати вік мінус 18 років!',
+                'Phone number must start with 380 and be 12 digits long!': '❌ Номер телефону повинен починатися з 380 і містити 12 цифр!',
+                'City name must be specified and be at least 2 characters long!': '❌ Назва міста повинна бути вказана і містити мінімум 2 символи!',
+                'The specified job title does not exist!': '❌ Вказана посада не існує!',
+                'The specified department does not exist!': '❌ Вказаний відділ не існує!',
+                'The specified gender does not exist!': '❌ Вказана стать не існує!',
+                'Employee cannot have zero experience if employed more than 6 months ago!': '❌ Співробітник не може мати нульовий досвід, якщо працевлаштований більше 6 місяців тому!'
+            };
+
+            // Ищем совпадения в сообщениях
+            for (const [englishMsg, ukrainianMsg] of Object.entries(triggerMessages)) {
+                if (message.includes(englishMsg)) {
+                    return ukrainianMsg;
+                }
+            }
+
+            // Если не нашли конкретного сообщения триггера, возвращаем оригинал
+            return `⚠️ Помилка валідації: ${message}`;
+        }
+
+        // Enhanced utility functions
         function showResponse(elementId, data, isError = false) {
             const element = document.getElementById(elementId);
             element.style.display = 'block';
-            element.className = `response ${isError ? 'error' : 'success'}`;
-            element.textContent = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+
+            let message = '';
+            if (isError) {
+                message = parseTriggerMessage(data);
+                element.className = 'response error';
+            } else {
+                message = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+                element.className = 'response success';
+            }
+
+            element.textContent = message;
+        }
+
+        function showSuccess(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = 'response success';
+            element.textContent = `✅ ${message}`;
         }
 
         function showLoading(elementId) {
@@ -1443,38 +1494,6 @@
                 yearOfEmployment: yearOfEmployment
             };
 
-            // Валидация номера телефона
-            if (!phoneNumber.match(/^380\d{9}$/)) {
-                showResponse('createResponse', 'Номер телефону повинен починатися з 380 і містити 12 цифр', true);
-                return;
-            }
-
-            // Валидация возраста
-            const birthDate = new Date(dateOfBirth);
-            const today = new Date();
-            let age = today.getFullYear() - birthDate.getFullYear();
-            if (today.getMonth() < birthDate.getMonth() ||
-                (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-
-            if (age < 18) {
-                showResponse('createResponse', 'Співробітник повинен бути не молодше 18 років', true);
-                return;
-            }
-
-            if (experienceYear > age - 18) {
-                showResponse('createResponse', 'Досвід роботи не може перевищувати вік мінус 18 років', true);
-                return;
-            }
-
-            // Валидация даты трудоустройства
-            const employmentDate = new Date(yearOfEmployment);
-            if (employmentDate > today) {
-                showResponse('createResponse', 'Дата прийняття на роботу не може бути в майбутньому', true);
-                return;
-            }
-
             // Отправка данных
             showLoading('createResponse');
 
@@ -1487,18 +1506,27 @@
                     body: JSON.stringify(employeeData)
                 });
 
-                const data = await response.json();
-
                 if (response.ok) {
-                    showResponse('createResponse', 'Співробітника успішно створено!');
+                    const data = await response.json();
+
+                    // Проверяем, была ли коррекция даты
+                    const originalDate = new Date(yearOfEmployment);
+                    const returnedDate = new Date(data.yearOfEmployment);
+
+                    if (originalDate > new Date() && returnedDate.toDateString() === new Date().toDateString()) {
+                        showSuccess('createResponse', 'Співробітника успішно створено! 📅 Дата прийняття на роботу була автоматично скорегована на сьогоднішню.');
+                    } else {
+                        showSuccess('createResponse', 'Співробітника успішно створено!');
+                    }
+
                     document.getElementById('createForm').reset();
-                    // Обновляем список сотрудников
                     await getAllEmployees();
                 } else {
-                    showResponse('createResponse', data, true);
+                    const errorData = await response.json();
+                    showResponse('createResponse', errorData, true);
                 }
             } catch (error) {
-                showResponse('createResponse', `Помилка: ${error.message}`, true);
+                showResponse('createResponse', `Помилка підключення: ${error.message}`, true);
             }
         }
 
@@ -1576,25 +1604,10 @@
                 return;
             }
 
-            if (!employeeData.phoneNumber.match(/^380\d{9}$/)) {
-                showResponse('updateResponse', 'Номер телефону повинен починатися з 380 і містити 12 цифр', true);
-                return;
-            }
-
-            const birthDate = new Date(employeeData.dateOfBirth);
-            const age = new Date().getFullYear() - birthDate.getFullYear();
-            if (age < 18) {
-                showResponse('updateResponse', 'Співробітник повинен бути не молодше 18 років', true);
-                return;
-            }
-
-            if (employeeData.experienceYear > age - 18) {
-                showResponse('updateResponse', 'Досвід роботи не може перевищувати вік мінус 18 років', true);
-                return;
-            }
-
             showLoading('updateResponse');
             try {
+                const originalDate = new Date(employeeData.yearOfEmployment);
+
                 const response = await fetch(`${API_BASE}/${id}`, {
                     method: 'PUT',
                     headers: {
@@ -1603,16 +1616,24 @@
                     body: JSON.stringify(employeeData)
                 });
 
-                const data = await response.json();
-                showResponse('updateResponse', data, !response.ok);
-
                 if (response.ok) {
+                    const data = await response.json();
                     await getAllEmployees();
                     document.getElementById('updateForm').style.display = 'none';
-                    showResponse('updateResponse', 'Дані співробітника успішно оновлено!');
+
+                    // Проверяем, была ли коррекция даты
+                    const returnedDate = new Date(data.yearOfEmployment);
+                    if (originalDate > new Date() && returnedDate.toDateString() === new Date().toDateString()) {
+                        showSuccess('updateResponse', 'Дані співробітника успішно оновлено! 📅 Дата прийняття на роботу була автоматично скорегована на сьогоднішню.');
+                    } else {
+                        showSuccess('updateResponse', 'Дані співробітника успішно оновлено!');
+                    }
+                } else {
+                    const errorData = await response.json();
+                    showResponse('updateResponse', errorData, true);
                 }
             } catch (error) {
-                showResponse('updateResponse', `Помилка: ${error.message}`, true);
+                showResponse('updateResponse', `Помилка підключення: ${error.message}`, true);
             }
         }
 
