@@ -729,7 +729,7 @@
                 <div id="createResponse" class="response" style="display: none;"></div>
             </div>
 
-          
+
 
             <div class="section">
                 <h3>✏️ Редагувати співробітника</h3>
@@ -831,7 +831,7 @@
                 <p>Система керування товарами магазину</p>
             </div>
 
-         
+
 
             <div class="stats-bar" id="goodsStatsBar" style="display: none;">
                 <div class="stat-card">
@@ -848,7 +848,7 @@
                 </div>
             </div>
 
-           
+
             <div class="section">
                 <h3>📦 Всі товари</h3>
                 <div class="api-url">GET /api/goods</div>
@@ -859,7 +859,7 @@
                 <div id="goodsGrid" class="employees-grid"></div>
             </div>
 
-         
+
             <div class="section">
                 <h3>🔍 Пошук товару за ID</h3>
                 <div class="api-url">GET /api/goods/{id}</div>
@@ -874,7 +874,7 @@
                 <div id="goodsByIdGrid" class="employees-grid"></div>
             </div>
 
-         
+
             <div class="section">
                 <h3>⏰ Товари з терміном придатності</h3>
                 <div class="api-url">GET /api/goods/expiring</div>
@@ -883,7 +883,7 @@
                 <div id="expiringGoodsGrid" class="employees-grid"></div>
             </div>
 
-           
+
             <div class="section">
                 <h3>♾️ Товари без терміну придатності</h3>
                 <div class="api-url">GET /api/goods/non-expiring</div>
@@ -892,7 +892,7 @@
                 <div id="nonExpiringGoodsGrid" class="employees-grid"></div>
             </div>
 
-         
+
             <div class="section">
                 <h3>📊 Аналіз товарів у відділі</h3>
                 <div class="api-url">GET /api/goods/department-analysis/{departmentName}</div>
@@ -907,7 +907,7 @@
                 <div id="departmentAnalysisGrid" class="employees-grid"></div>
             </div>
 
-          
+
             <div class="section">
                 <h3>➕ Додати новий товар</h3>
                 <div class="api-url">POST /api/goods</div>
@@ -959,7 +959,7 @@
                 <div id="createGoodsResponse" class="response" style="display: none;"></div>
             </div>
 
-       
+
             <div class="section">
                 <h3>✏️ Редагувати товар</h3>
                 <div class="api-url">PUT /api/goods/{id}</div>
@@ -1020,7 +1020,7 @@
                 <div id="updateGoodsResponse" class="response" style="display: none;"></div>
             </div>
 
-          
+
             <div class="section">
                 <h3>🗑️ Видалити товар</h3>
                 <div class="api-url">DELETE /api/goods/{id}</div>
@@ -1034,13 +1034,13 @@
                 <div id="deleteGoodsResponse" class="response" style="display: none;"></div>
             </div>
 
-      
+
             <div class="sales-section-separator">
                 <h2>💰 ПРОДАЖІ </h2>
                 <p>Система обліку та аналізу продажів</p>
             </div>
 
-         
+
             <div class="sales-stats-bar" id="salesStatsBar" style="display: none;">
                 <div class="sales-stat-card">
                     <div class="stat-number" id="totalSales">0</div>
@@ -1056,7 +1056,7 @@
                 </div>
             </div>
 
-         
+
 
             <div class="section">
                 <h3>💰 Всі продажі</h3>
@@ -1098,7 +1098,7 @@
                 <div id="salesByEmployeeGrid" class="employees-grid"></div>
             </div>
 
-          
+
 
             <div class="section">
                 <h3>📦 Продажі за товаром</h3>
@@ -1114,7 +1114,7 @@
                 <div id="salesByProductGrid" class="employees-grid"></div>
             </div>
 
-          
+
 
             <div class="section">
                 <h3>📊 Статистика продажів за співробітниками</h3>
@@ -1124,7 +1124,7 @@
                 <div id="employeeSalesAnalysisGrid" class="employees-grid"></div>
             </div>
 
-           
+
 
             <div class="section">
                 <h3>📅 Аналіз продажів за період</h3>
@@ -1144,7 +1144,7 @@
                 <div id="salesPeriodAnalysisGrid" class="employees-grid"></div>
             </div>
 
-           
+
 
             <div class="section">
                 <h3>➕ Додати новий продаж</h3>
@@ -1186,7 +1186,7 @@
                 <div id="createSalesResponse" class="response" style="display: none;"></div>
             </div>
 
-         
+
             <div class="section">
                 <h3>✏️ Редагувати продаж</h3>
                 <div class="api-url">PUT /api/sales/{id}</div>
@@ -1236,7 +1236,7 @@
                 <div id="updateSalesResponse" class="response" style="display: none;"></div>
             </div>
 
-          
+
 
             <div class="section">
                 <h3>🗑️ Видалити продаж</h3>
@@ -1251,7 +1251,7 @@
                 <div id="deleteSalesResponse" class="response" style="display: none;"></div>
             </div>
 
-      
+
 
 
             <div class="section">
@@ -1299,6 +1299,95 @@
                 <button onclick="checkDepartmentWorkingStatus()">Перевірити статус роботи</button>
                 <div id="workingStatusResponse" class="response" style="display: none;"></div>
                 <div id="workingStatusGrid" class="employees-grid"></div>
+            </div>
+
+
+
+
+
+            <div class="section-separator">
+                <h2>🏢 ВІДДІЛИ </h2>
+                <p>Система управління відділами магазину</p>
+            </div>
+
+            <!-- Статистика отделов -->
+            <div class="stats-bar" id="departmentsStatsBar" style="display: none;">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalDepartments">0</div>
+                    <div class="stat-label">Всього відділів</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="salesDepartments">0</div>
+                    <div class="stat-label">Торгових відділів</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="avgCounters">0</div>
+                    <div class="stat-label">Середня кількість прилавків</div>
+                </div>
+            </div>
+
+            <!-- Все отделы -->
+            <div class="section">
+                <h3>🏢 Всі відділи</h3>
+                <div class="api-url">GET /api/departments</div>
+                <button onclick="getAllDepartments()">
+                    <span id="loadAllDepartmentsSpinner" style="display: none;" class="loading-spinner"></span>
+                    Завантажити всі відділи
+                </button>
+                <div id="departmentsGrid" class="employees-grid"></div>
+            </div>
+
+            <!-- Редактирование отдела -->
+            <div class="section">
+                <h3>✏️ Редагувати відділ</h3>
+                <div class="api-url">PUT /api/departments/{id}</div>
+                <div class="form-group">
+                    <label for="updateDepartmentId">Відділ для редагування:</label>
+                    <select id="updateDepartmentId" required>
+                        <option value="">Виберіть відділ</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <button type="button" onclick="loadDepartmentForUpdate()">Завантажити дані</button>
+                </div>
+                <form id="updateDepartmentForm" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="updateDeptName">Назва відділу: *</label>
+                            <input type="text" id="updateDeptName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateLocationRow">Номер ряду: *</label>
+                            <input type="number" id="updateLocationRow" min="0" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="updateSales">Торговий відділ: *</label>
+                            <select id="updateSales" required>
+                                <option value="">Виберіть</option>
+                                <option value="true">Так</option>
+                                <option value="false">Ні</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateCounters">Кількість прилавків: *</label>
+                            <input type="number" id="updateCounters" min="0" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="updateStartTime">Час відкриття: *</label>
+                            <input type="time" id="updateStartTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateEndTime">Час закриття: *</label>
+                            <input type="time" id="updateEndTime" required>
+                        </div>
+                    </div>
+                    <button type="button" class="update" onclick="updateDepartment()">Оновити відділ</button>
+                </form>
+                <div id="updateDepartmentResponse" class="response" style="display: none;"></div>
             </div>
         </div>
     </div>
@@ -3229,6 +3318,197 @@
                 document.getElementById('workingStatusGrid').innerHTML = '';
             }
         }
+
+
+
+
+
+        const DEPARTMENTS_API_BASE = 'http://localhost:5109/api/departments';
+        let allDepartments = [];
+
+        // Функция для отображения отделов в сетке
+        function displayDepartmentsGrid(departments, gridId) {
+            const grid = document.getElementById(gridId);
+            if (departments.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; padding: 20px; color: #718096;">Відділи не знайдені.</p>';
+                return;
+            }
+
+            grid.innerHTML = departments.map(dept => `
+        <div class="employee-card" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
+            <h4>${dept.departmentName}</h4>
+            <div class="employee-info">
+                <span>ID:</span>
+                <div class="employee-value">${dept.id}</div>
+            </div>
+            <div class="employee-info">
+                <span>Ряд:</span>
+                <div class="employee-value">${dept.locationRow}</div>
+            </div>
+            <div class="employee-info">
+                <span>Торговий:</span>
+                <div class="employee-value">${dept.salesStatus}</div>
+            </div>
+            <div class="employee-info">
+                <span>Прилавки:</span>
+                <div class="employee-value">${dept.counters}</div>
+            </div>
+            <div class="employee-info">
+                <span>Час роботи:</span>
+                <div class="employee-value">${dept.workingHours}</div>
+            </div>
+        </div>
+    `).join('');
+        }
+
+        // Функция для обновления статистики отделов
+        function updateDepartmentsStats(departments) {
+            if (departments && departments.length > 0) {
+                const salesCount = departments.filter(d => d.sales).length;
+                const avgCounters = departments.reduce((sum, d) => sum + d.counters, 0) / departments.length;
+
+                document.getElementById('totalDepartments').textContent = departments.length;
+                document.getElementById('salesDepartments').textContent = salesCount;
+                document.getElementById('avgCounters').textContent = Math.round(avgCounters);
+
+                document.getElementById('departmentsStatsBar').style.display = 'grid';
+            }
+        }
+
+        // Функция для заполнения выпадающего списка отделов
+        function populateDepartmentSelectForUpdate() {
+            const select = document.getElementById('updateDepartmentId');
+            select.innerHTML = '<option value="">Виберіть відділ</option>';
+            allDepartments.forEach(dept => {
+                select.innerHTML += `<option value="${dept.id}">${dept.departmentName} (Ряд ${dept.locationRow})</option>`;
+            });
+        }
+
+        // Получить все отделы
+        async function getAllDepartments() {
+            const spinner = document.getElementById('loadAllDepartmentsSpinner');
+            spinner.style.display = 'inline-block';
+
+            try {
+                const response = await fetch(DEPARTMENTS_API_BASE);
+                const data = await response.json();
+
+                if (response.ok) {
+                    allDepartments = data;
+                    displayDepartmentsGrid(data, 'departmentsGrid');
+                    updateDepartmentsStats(data);
+                    populateDepartmentSelectForUpdate();
+                } else {
+                    console.error('Error loading departments:', data);
+                    document.getElementById('departmentsGrid').innerHTML = '<p style="text-align: center; padding: 20px; color: #e53e3e;">Помилка завантаження відділів</p>';
+                }
+            } catch (error) {
+                console.error('Error loading departments:', error);
+                document.getElementById('departmentsGrid').innerHTML = '<p style="text-align: center; padding: 20px; color: #e53e3e;">Помилка підключення до сервера</p>';
+            } finally {
+                spinner.style.display = 'none';
+            }
+        }
+
+        // Загрузить данные отдела для редактирования
+        async function loadDepartmentForUpdate() {
+            const id = document.getElementById('updateDepartmentId').value;
+            if (!id) {
+                showResponse('updateDepartmentResponse', 'Будь ласка, виберіть відділ', true);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${DEPARTMENTS_API_BASE}/${id}`);
+                if (response.ok) {
+                    const department = await response.json();
+
+                    // Заполняем форму данными отдела
+                    document.getElementById('updateDeptName').value = department.departmentName;
+                    document.getElementById('updateLocationRow').value = department.locationRow;
+                    document.getElementById('updateSales').value = department.sales.toString();
+                    document.getElementById('updateCounters').value = department.counters;
+                    document.getElementById('updateStartTime').value = department.formattedStartTime;
+                    document.getElementById('updateEndTime').value = department.formattedEndTime;
+
+                    // Показываем форму
+                    document.getElementById('updateDepartmentForm').style.display = 'block';
+                    showResponse('updateDepartmentResponse', 'Дані відділу завантажені успішно');
+                } else {
+                    const error = await response.json();
+                    showResponse('updateDepartmentResponse', error, true);
+                }
+            } catch (error) {
+                showResponse('updateDepartmentResponse', `Помилка: ${error.message}`, true);
+            }
+        }
+
+        // Обновить отдел
+        async function updateDepartment() {
+            const id = document.getElementById('updateDepartmentId').value;
+            const departmentData = {
+                departmentName: document.getElementById('updateDeptName').value.trim(),
+                locationRow: parseInt(document.getElementById('updateLocationRow').value),
+                sales: document.getElementById('updateSales').value === 'true',
+                counters: parseInt(document.getElementById('updateCounters').value),
+                startTime: document.getElementById('updateStartTime').value + ':00',
+                endTime: document.getElementById('updateEndTime').value + ':00'
+            };
+
+            // Базовая валидация
+            if (!departmentData.departmentName) {
+                showResponse('updateDepartmentResponse', 'Назва відділу є обов\'язковою', true);
+                return;
+            }
+
+            if (isNaN(departmentData.locationRow) || departmentData.locationRow < 0) {
+                showResponse('updateDepartmentResponse', 'Номер ряду повинен бути не менше 0', true);
+                return;
+            }
+
+            if (isNaN(departmentData.counters) || departmentData.counters < 0) {
+                showResponse('updateDepartmentResponse', 'Кількість прилавків повинна бути не менше 0', true);
+                return;
+            }
+
+            if (departmentData.startTime >= departmentData.endTime) {
+                showResponse('updateDepartmentResponse', 'Час відкриття повинен бути раніше часу закриття', true);
+                return;
+            }
+
+            showLoading('updateDepartmentResponse');
+
+            try {
+                const response = await fetch(`${DEPARTMENTS_API_BASE}/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(departmentData)
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    await getAllDepartments(); // Обновляем список отделов
+                    document.getElementById('updateDepartmentForm').style.display = 'none';
+                    showSuccess('updateDepartmentResponse', `Відділ "${data.departmentName}" успішно оновлено!`);
+                } else {
+                    const errorData = await response.json();
+                    showResponse('updateDepartmentResponse', errorData, true);
+                }
+            } catch (error) {
+                showResponse('updateDepartmentResponse', `Помилка підключення: ${error.message}`, true);
+            }
+        }
+
+        // Добавить вызов загрузки отделов при загрузке страницы
+        window.addEventListener('load', async () => {
+            setMaxDates();
+            await loadReferenceData();
+            await loadGoodsReferenceData();
+            await getAllDepartments(); // Добавляем загрузку отделов
+            setMaxSalesDate();
+        });
     </script>
 </body>
 </html>
