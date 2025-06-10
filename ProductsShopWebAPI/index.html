@@ -32,14 +32,15 @@
         .header {
             background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
             color: white;
-            padding: 30px;
+            padding: 40px ;
+           /* padding-top: 190px;*/
             text-align: center;
-            position: relative;
+            /*position: relative;*/
             overflow: hidden;
-           
+            
         }
 
-            .header::before {
+            /*.header::before {
                 content: '';
                 position: absolute;
                 top: -50%;
@@ -48,7 +49,7 @@
                 height: 200%;
                 background: repeating-linear-gradient( 45deg, transparent, transparent 2px, rgba(255,255,255,0.05) 2px, rgba(255,255,255,0.05) 4px );
                 animation: slide 20s linear infinite;
-            }
+            }*/
 
         @keyframes slide {
             0% {
@@ -62,9 +63,10 @@
 
         .header h1 {
             font-size: 2.5em;
-            margin-bottom: 10px;
-            position: relative;
+          /*  margin: 10px;*/
+           /* position: relative;*/
             z-index: 1;
+           
         }
 
         .header p {
@@ -574,41 +576,67 @@
             background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
             top:0;
             z-index: 9999;
+            margin-left:-20px;
         }
             .head-menu{
                 display: flex;
                 width:100%;
                 padding: 20px;
             }
-            .head-item a{
-                text-decoration: none;
-                color: white;
-                font-weight:700;
-            }
-            .head-list{
-                display: flex;
-                align-items: center;
-                justify-content: flex-start;
-                gap: 20px;
-                list-style-type:none;
-            }
+        .head-item a {
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+                .head-item a:hover{
+                    color:gainsboro;
+                    transform:scale(1.05);
+                }
+                .head-list {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    gap: 20px;
+                    list-style-type: none;
+                }
+        .api-url {
+            display: none;
+        }
+
+        .footer {
+            padding: 20px;
+            margin: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+            color: white;
+            display: flex;
+            margin: 30px -20px -20px -20px;
+            justify-content: center;
+        }
+        .rights{
+            text-align:center;
+            font-weight:700;
+        }
     </style>
 </head>
 <body>
     <header class="head-section">
         <nav class="head-menu" >
             <ul class="head-list">
-                <li class="head-item"><a href="">Співробітники</a></li>
-                <li class="head-item"><a href="">Продукти</a></li>
-                <li class="head-item"><a href="">Продажі</a></li>
-                <li class="head-item"><a href="">Відділи</a></li>
+                <li class="head-item"><a href="#employees">Співробітники</a></li>
+                <li class="head-item"><a href="#products">Товари</a></li>
+                <li class="head-item"><a href="#sales">Продажі</a></li>
+                <li class="head-item"><a href="#departments">Відділи</a></li>
             </ul>
         </nav>
     </header>
     <div class="container">
         <div class="header">
-            <h1>🏢 Система управління супермаркетом</h1>
-            <p>Підключення до бази даних SQL Server</p>
+            <h1 id="employees">🏢 Система управління супермаркетом</h1>
+           
         </div>
 
         <div class="content">
@@ -864,7 +892,7 @@
 
 
             <div class="section-separator">
-                <h2>🛒 ТОВАРИ </h2>
+                <h2 id="products">🛒 ТОВАРИ </h2>
                 <p>Система керування товарами магазину</p>
             </div>
 
@@ -877,7 +905,7 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-number" id="expiringGoods">0</div>
-                    <div class="stat-label">З терміном годності</div>
+                    <div class="stat-label">З терміном придатності</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number" id="avgTemperature">0°C</div>
@@ -915,7 +943,7 @@
             <div class="section">
                 <h3>⏰ Товари з терміном придатності</h3>
                 <div class="api-url">GET /api/goods/expiring</div>
-                <button onclick="getExpiringGoods()">Показати товари з терміном годності</button>
+                <button onclick="getExpiringGoods()">Показати товари з терміном придатності</button>
                 <div id="expiringGoodsResponse" class="response" style="display: none;"></div>
                 <div id="expiringGoodsGrid" class="employees-grid"></div>
             </div>
@@ -924,7 +952,7 @@
             <div class="section">
                 <h3>♾️ Товари без терміну придатності</h3>
                 <div class="api-url">GET /api/goods/non-expiring</div>
-                <button onclick="getNonExpiringGoods()">Показати товари без терміну годності</button>
+                <button onclick="getNonExpiringGoods()">Показати товари без терміну придатності</button>
                 <div id="nonExpiringGoodsResponse" class="response" style="display: none;"></div>
                 <div id="nonExpiringGoodsGrid" class="employees-grid"></div>
             </div>
@@ -1040,7 +1068,7 @@
                             <input type="number" id="updateGoodsTemperature" min="-100" max="100" step="0.1" required>
                         </div>
                         <div class="form-group">
-                            <label for="updateGoodsIsExpiring">Має термін годності:</label>
+                            <label for="updateGoodsIsExpiring">Має термін придатності:</label>
                             <select id="updateGoodsIsExpiring" required onchange="toggleGoodsTermField('update')">
                                 <option value="">Виберіть</option>
                                 <option value="true">Так</option>
@@ -1073,7 +1101,7 @@
 
 
             <div class="sales-section-separator">
-                <h2>💰 ПРОДАЖІ </h2>
+                <h2 id="sales">💰 ПРОДАЖІ </h2>
                 <p>Система обліку та аналізу продажів</p>
             </div>
 
@@ -1339,10 +1367,9 @@
             </div>
 
 
-            <!-- Добавить эту секцию в index.html после секции сотрудников и перед секцией товаров -->
-
+           
             <div class="section-separator">
-                <h2>🏢 ВІДДІЛИ </h2>
+                <h2 id="departments">🏢 ВІДДІЛИ </h2>
                 <p>Система управління відділами магазину</p>
             </div>
 
@@ -1430,6 +1457,9 @@
 
         </div>
     </div>
+    <footer class="footer">
+        <span class="rights">@All rights are reserved by Valeriia Kupriian</span>
+    </footer>
 
     <script>
         const API_BASE = 'http://localhost:5109/api/employees';
@@ -2164,7 +2194,7 @@
                             <div class="employee-value">${item.temperatureDisplay}</div>
                         </div>
                         <div class="employee-info">
-                            <span>Термін годності:</span>
+                            <span>Термін придатності:</span>
                             <div class="employee-value">${item.expirationStatus}</div>
                         </div>
                     </div>
@@ -2218,7 +2248,7 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    showResponse('expiringGoodsResponse', `Знайдено ${data.length} товарів з терміном годності`);
+                    showResponse('expiringGoodsResponse', `Знайдено ${data.length} товарів з терміном придатності`);
                     displayGoodsGrid(data, 'expiringGoodsGrid');
                 } else {
                     showResponse('expiringGoodsResponse', data, true);
@@ -2237,7 +2267,7 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    showResponse('nonExpiringGoodsResponse', `Знайдено ${data.length} товарів без терміну годності`);
+                    showResponse('nonExpiringGoodsResponse', `Знайдено ${data.length} товарів без терміну придатності`);
                     displayGoodsGrid(data, 'nonExpiringGoodsGrid');
                 } else {
                     showResponse('nonExpiringGoodsResponse', data, true);
