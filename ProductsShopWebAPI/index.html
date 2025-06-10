@@ -16,7 +16,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 100px 20px 20px 20px;
         }
 
         .container {
@@ -36,6 +36,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+           
         }
 
             .header::before {
@@ -566,9 +567,44 @@
             .sales-section-separator p {
                 font-size: 1.1em;
             }
+        .head-section {
+            position: fixed;
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+            top:0;
+            z-index: 9999;
+        }
+            .head-menu{
+                display: flex;
+                width:100%;
+                padding: 20px;
+            }
+            .head-item a{
+                text-decoration: none;
+                color: white;
+                font-weight:700;
+            }
+            .head-list{
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 20px;
+                list-style-type:none;
+            }
     </style>
 </head>
 <body>
+    <header class="head-section">
+        <nav class="head-menu" >
+            <ul class="head-list">
+                <li class="head-item"><a href="">Співробітники</a></li>
+                <li class="head-item"><a href="">Продукти</a></li>
+                <li class="head-item"><a href="">Продажі</a></li>
+                <li class="head-item"><a href="">Відділи</a></li>
+            </ul>
+        </nav>
+    </header>
     <div class="container">
         <div class="header">
             <h1>🏢 Система управління супермаркетом</h1>
