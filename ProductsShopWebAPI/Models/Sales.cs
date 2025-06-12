@@ -22,7 +22,7 @@
         public decimal Quantity { get; set; }
         public decimal Price { get; set; }
         public decimal Total => Quantity * Price;
-        public string FormattedDate => Date.ToString("dd.MM.yyyy HH:mm");
+        public string FormattedDate => Date.ToString("dd.MM.yyyy");
         public string FormattedTotal => $"{Total:N2} грн";
         public string FormattedQuantity => $"{Quantity:N3}";
         public string FormattedPrice => $"{Price:N2} грн";
