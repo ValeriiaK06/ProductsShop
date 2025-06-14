@@ -4601,11 +4601,11 @@
                                    <div class="employee-value" style="color: white; font-weight: bold;">${data.productCount}</div>
                                </div>
                                <div class="employee-info" style="color: rgba(255,255,255,0.9);">
-                                   <span style="color: white;">З терміном годності:</span>
+                                   <span style="color: white;">З терміном придатності:</span>
                                    <div class="employee-value" style="color: white; font-weight: bold;">${data.expiringProductCount}</div>
                                </div>
                                <div class="employee-info" style="color: rgba(255,255,255,0.9);">
-                                   <span style="color: white;">Середня температура:</span>
+                                   <span style="color: white;">Середня температура зберігання:</span>
                                    <div class="employee-value" style="color: white; font-weight: bold;">${data.avgStorageTemp.toFixed(1)}°C</div>
                                </div>
                                <div class="employee-info" style="color: rgba(255,255,255,0.9);">
@@ -5234,10 +5234,7 @@
                     const analysisHtml = data.map(analysis => `
                <div class="analysis-card">
                    <h4>${analysis.employeeName}</h4>
-                   <div class="sales-info">
-                       <span>Відділ:</span>
-                       <div class="sales-value">${analysis.departmentName}</div>
-                   </div>
+               
                    <div class="sales-info">
                        <span>Кількість продажів:</span>
                        <div class="sales-value">${analysis.totalSales}</div>
