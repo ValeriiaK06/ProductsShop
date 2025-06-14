@@ -4135,24 +4135,49 @@
                     body: JSON.stringify(employeeData)
                 });
 
+                //if (response.ok) {
+                //    const data = await response.json();
+
+                //    const originalDate = new Date(yearOfEmployment);
+                //    const returnedDate = new Date(data.yearOfEmployment);
+
+                //    if (originalDate > new Date() && returnedDate.toDateString() === new Date().toDateString()) {
+                //        showSuccess('createResponse', 'Співробітника успішно створено! 📅 Дата прийняття на роботу була автоматично скорегована на сьогоднішню.');
+                //    } else {
+                //        showSuccess('createResponse', 'Співробітника успішно створено!');
+                //    }
+
+                //    document.getElementById('createForm').reset();
+
+                //    // Обновляем список сотрудников для селектов
+                //    allEmployees = [];
+                //    /*await loadEmployeesForSelects();*/
+                //    await getAllEmployees();
+                //} 
                 if (response.ok) {
                     const data = await response.json();
 
-                    const originalDate = new Date(yearOfEmployment);
-                    const returnedDate = new Date(data.yearOfEmployment);
+                    // Сравниваем введенную и сохраненную даты
+                    const inputDateStr = new Date(yearOfEmployment).toLocaleDateString('uk-UA');
+                    const savedDateStr = new Date(data.yearOfEmployment).toLocaleDateString('uk-UA');
 
-                    if (originalDate > new Date() && returnedDate.toDateString() === new Date().toDateString()) {
-                        showSuccess('createResponse', 'Співробітника успішно створено! 📅 Дата прийняття на роботу була автоматично скорегована на сьогоднішню.');
+                    let message = '✅ Співробітника успішно створено!\n\n';
+
+                    if (inputDateStr !== savedDateStr) {
+                        message += `📅 Дата прийняття на роботу:\n`;
+                        message += `   Введена: ${inputDateStr}\n`;
+                        message += `   Збережена: ${savedDateStr}\n`;
+                        message += `   (автоматично скорегована системою)`;
                     } else {
-                        showSuccess('createResponse', 'Співробітника успішно створено!');
+                        message += `📅 Дата прийняття: ${savedDateStr}`;
                     }
 
+                    showSuccess('createResponse', message);
                     document.getElementById('createForm').reset();
-
-                    // Обновляем список сотрудников для селектов
                     allEmployees = [];
-                    await loadEmployeesForSelects();
-                } else {
+                    await getAllEmployees();
+                }
+                else {
                     const errorData = await response.json();
                     showResponse('createResponse', errorData, true);
                 }
@@ -4239,21 +4264,45 @@
                     body: JSON.stringify(employeeData)
                 });
 
+                //if (response.ok) {
+                //    const data = await response.json();
+                //    document.getElementById('updateForm').style.display = 'none';
+
+                //    const returnedDate = new Date(data.yearOfEmployment);
+                //    if (originalDate > new Date() && returnedDate.toDateString() === new Date().toDateString()) {
+                //        showSuccess('updateResponse', 'Дані співробітника успішно оновлено! 📅 Дата прийняття на роботу була автоматично скорегована на сьогоднішню.');
+                //    } else {
+                //        showSuccess('updateResponse', 'Дані співробітника успішно оновлено!');
+                //    }
+
+                //    // Обновляем список сотрудников для селектов
+                //    allEmployees = [];
+                //    /* await loadEmployeesForSelects();*/
+                //    await getAllEmployees();
+                //} 
                 if (response.ok) {
                     const data = await response.json();
                     document.getElementById('updateForm').style.display = 'none';
 
-                    const returnedDate = new Date(data.yearOfEmployment);
-                    if (originalDate > new Date() && returnedDate.toDateString() === new Date().toDateString()) {
-                        showSuccess('updateResponse', 'Дані співробітника успішно оновлено! 📅 Дата прийняття на роботу була автоматично скорегована на сьогоднішню.');
+                    const inputDateStr = new Date(employeeData.yearOfEmployment).toLocaleDateString('uk-UA');
+                    const savedDateStr = new Date(data.yearOfEmployment).toLocaleDateString('uk-UA');
+
+                    let message = '✅ Дані співробітника успішно оновлено!\n\n';
+
+                    if (inputDateStr !== savedDateStr) {
+                        message += `📅 Дата прийняття на роботу:\n`;
+                        message += `   Введена: ${inputDateStr}\n`;
+                        message += `   Збережена: ${savedDateStr}\n`;
+                        message += `   (автоматично скорегована системою)`;
                     } else {
-                        showSuccess('updateResponse', 'Дані співробітника успішно оновлено!');
+                        message += `📅 Дата прийняття: ${savedDateStr}`;
                     }
 
-                    // Обновляем список сотрудников для селектов
+                    showSuccess('updateResponse', message);
                     allEmployees = [];
-                    await loadEmployeesForSelects();
-                } else {
+                    await getAllEmployees();
+                }
+                else {
                     const errorData = await response.json();
                     showResponse('updateResponse', errorData, true);
                 }
@@ -4286,9 +4335,10 @@
                     showResponse('deleteResponse', `Співробітника ${employeeName} успішно видалено`);
                     document.getElementById('deleteId').value = '';
 
-                    // Обновляем список сотрудников для селектов
+                  
                     allEmployees = [];
-                    await loadEmployeesForSelects();
+                    /* await loadEmployeesForSelects();*/
+                    await getAllEmployees();
                 } else {
                     const error = await response.json();
                     showResponse('deleteResponse', error, true);
@@ -4668,7 +4718,7 @@
 
                     // Обновляем список товаров для селектов
                     allGoods = [];
-                    await loadGoodsForSelects();
+                    await getAllGoods();
                 } else {
                     const errorData = await response.json();
                     const translatedMessage = parseGoodsTriggerMessage(errorData);
@@ -4781,7 +4831,7 @@
 
                     // Обновляем список товаров для селектов
                     allGoods = [];
-                    await loadGoodsForSelects();
+                    await getAllGoods();
                 } else {
                     const errorData = await response.json();
                     const translatedMessage = parseGoodsTriggerMessage(errorData);
@@ -4818,7 +4868,7 @@
 
                     // Обновляем список товаров для селектов
                     allGoods = [];
-                    await loadGoodsForSelects();
+                    await getAllGoods();
                 } else {
                     const error = await response.json();
                     showResponse('deleteGoodsResponse', error, true);
@@ -4857,7 +4907,7 @@
 
                 select.innerHTML = '<option value="">Виберіть співробітника</option>';
                 allEmployees.forEach(emp => {
-                    select.innerHTML += `<option value="${emp.id}">${emp.fullName} (${emp.departmentName})</option>`;
+                    select.innerHTML += `<option value="${emp.id}">${emp.fullName}</option>`;
                 });
             });
 
@@ -4944,8 +4994,12 @@
                 return;
             }
 
+
             grid.innerHTML = sales.map(sale => {
                 const dateOnly = new Date(sale.date).toLocaleDateString('uk-UA');
+
+                const product = allGoods.find(goods => goods.productName === sale.productName);
+                const productDepartment = product ? product.departmentName : 'Невідомий відділ';
 
                 return `
        <div class="sales-card">
@@ -4958,9 +5012,9 @@
                <span>Товар:</span>
                <div class="sales-value">${sale.productName}</div>
            </div>
-           <div class="sales-info">
-               <span>Відділ:</span>
-               <div class="sales-value">${sale.departmentName}</div>
+          <div class="sales-info">
+               <span>Відділ товару:</span>
+               <div class="sales-value">${productDepartment}</div>
            </div>
            <div class="sales-info">
                <span>Дата:</span>
@@ -5084,31 +5138,31 @@
         //        console.error('Error loading sales for selects:', error);
         //    }
         //}
-        //async function getSalesById() {
-        //    const id = document.getElementById('salesId').value;
-        //    if (!id) {
-        //        showResponse('salesByIdResponse', 'Будь ласка, виберіть ID продажу', true);
-        //        document.getElementById('salesByIdGrid').innerHTML = '';
-        //        return;
-        //    }
+        async function getSalesById() {
+            const id = document.getElementById('salesId').value;
+            if (!id) {
+                showResponse('salesByIdResponse', 'Будь ласка, виберіть ID продажу', true);
+                document.getElementById('salesByIdGrid').innerHTML = '';
+                return;
+            }
 
-        //    showLoading('salesByIdResponse');
-        //    try {
-        //        const response = await fetch(`${SALES_API_BASE}/${id}`);
-        //        const data = await response.json();
+            showLoading('salesByIdResponse');
+            try {
+                const response = await fetch(`${SALES_API_BASE}/${id}`);
+                const data = await response.json();
 
-        //        if (response.ok) {
-        //            showResponse('salesByIdResponse', `Знайдено продаж з ID ${id}`);
-        //            displaySalesGrid([data], 'salesByIdGrid');
-        //        } else {
-        //            showResponse('salesByIdResponse', data, true);
-        //            document.getElementById('salesByIdGrid').innerHTML = '';
-        //        }
-        //    } catch (error) {
-        //        showResponse('salesByIdResponse', `Помилка: ${error.message}`, true);
-        //        document.getElementById('salesByIdGrid').innerHTML = '';
-        //    }
-        //}
+                if (response.ok) {
+                    showResponse('salesByIdResponse', `Знайдено продаж з ID ${id}`);
+                    displaySalesGrid([data], 'salesByIdGrid');
+                } else {
+                    showResponse('salesByIdResponse', data, true);
+                    document.getElementById('salesByIdGrid').innerHTML = '';
+                }
+            } catch (error) {
+                showResponse('salesByIdResponse', `Помилка: ${error.message}`, true);
+                document.getElementById('salesByIdGrid').innerHTML = '';
+            }
+        }
 
         async function getSalesByEmployee() {
             const employeeId = document.getElementById('salesEmployeeId').value;
@@ -5317,7 +5371,7 @@
 
                     // Обновляем список продаж для селектов
                     allSales = [];
-                    await loadSalesForSelects();
+                    await getAllSales();
                 } else {
                     const errorData = await response.json();
                     const translatedMessage = parseSalesTriggerMessage(errorData);
@@ -5415,7 +5469,7 @@
 
                     // Обновляем список продаж для селектов
                     allSales = [];
-                    await loadSalesForSelects();
+                    await getAllSales();
                 } else {
                     const errorData = await response.json();
                     const translatedMessage = parseSalesTriggerMessage(errorData);
@@ -5452,7 +5506,7 @@
 
                     // Обновляем список продаж для селектов
                     allSales = [];
-                    await loadSalesForSelects();
+                    await getAllSales();
                 } else {
                     const error = await response.json();
                     showResponse('deleteSalesResponse', error, true);

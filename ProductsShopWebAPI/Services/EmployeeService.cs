@@ -305,7 +305,8 @@ namespace ProductsShopWebAPI.Services
 
                 using var command = new SqlCommand(sql, connection);
                 AddEmployeeParameters(command, request);
-                command.Parameters.AddWithValue("@YearOfEmployment", DateTime.Now.Date);
+                //command.Parameters.AddWithValue("@YearOfEmployment", DateTime.Now.Date);
+                command.Parameters.AddWithValue("@YearOfEmployment", request.YearOfEmployment);
 
                 var rowsAffected = await command.ExecuteNonQueryAsync();
 

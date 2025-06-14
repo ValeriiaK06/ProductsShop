@@ -89,7 +89,8 @@
         public string City { get; set; } = string.Empty;
         public int Department { get; set; }
         public int ExperienceYear { get; set; }
-        public int JobTitle { get; set; } 
+        public int JobTitle { get; set; }
+        public DateTime YearOfEmployment { get; set; }
     }
 
     public class UpdateEmployeeRequest
